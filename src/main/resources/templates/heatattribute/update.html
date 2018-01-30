@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+      xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="context-path" th:content="@{/}"/>
+    <title>修改</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/font-awesome/css/font-awesome.css}" rel="stylesheet"/>
+    <link th:href="@{/css/animate.css}" rel="stylesheet"/>
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/style/modify.css}"/>
+</head>
+
+<body class="color">
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>
+                        <form class="m-t" role="form" th:action="@{/heat/update}" method="post" id="form"
+                              onsubmit="javascript:$('#add').css('disabled','disabled');">
+                            <input type="hidden" name="uuid" th:value="${model.uuid}"/>
+                            <input type="text" name="names" th:value="${model.names}"/>
+                            <span th:text="${errortext}" style="color:red;"></span>
+                            <a id="add" onclick="javascript:$('#form').submit();">修改</a>
+                        </form>
+                    </h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/js/jquery-2.1.1.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/plugins/metisMenu/jquery.metisMenu.js}"></script>
+<script th:src="@{/js/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+<script th:src="@{/js/inspinia.js}"></script>
+
+</body>
+
+</html>

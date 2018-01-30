@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+      xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+    <meta charset="utf-8"/>
+    <meta content="text/html"/>
+    <meta name="context-path" th:content="@{/}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+
+    <title>Permission</title>
+
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/font-awesome/css/font-awesome.css}" rel="stylesheet"/>
+
+    <link th:href="@{/css/animate.css}" rel="stylesheet"/>
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/style/modify.css}"/>
+    <link th:href="@{/css/plugins/jsTree/style.min.css}" rel="stylesheet"/>
+    <style>
+			.jstree-open>.jstree-anchor>.fa-folder:before {
+				content: "\f07c";
+			}
+
+			.jstree-default .jstree-icon.none {
+				width: 0;
+			}
+
+			.fa {
+				margin-right: 10px;
+			}
+    </style>
+</head>
+<body class="color">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-4 col-xs-6 col-sm-4">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>
+                        人员权限关联
+                    </h5>
+                </div>
+                <div class="ibox-content">
+                    <div id="jstree1">
+                        <ul>
+                            <li>
+                                <!--<span d="0" x="0" onclick="click_getPermission(this)">总部</span>-->
+                                <span>总部</span>
+                                <!-- 显示所有的人员 -->
+                                <ul th:each="obj,s:${list}">
+                                    <li data-jstree='"type":"css"}' th:if="${obj.parents == '0'}">
+                                        <p style="float:right;">
+                                            <span th:text="${obj.names}" th:attr="d=${obj.uuid},x=${obj.types}"
+                                                  onclick="click_getPer()"></span>
+                                        </p>
+                                        <ul th:each="obj3,s3:${usermodel}">
+                                            <li data-jstree='"type":"css"}'
+                                                th:if="${obj3.position == obj.uuid}">
+                                                <p style="float:right;">
+                                                <span th:text="${obj3.username}" th:attr="d=${obj3.uuid},x=${obj3.acctype}"
+                                                      onclick="click_getPermission(this)"></span>
+                                                </p>
+                                            </li>
+                                        </ul>
+                                        <ul th:each="obj1,s1:${list}">
+                                            <li data-jstree='"type":"css"}' th:if="${obj1.parents == obj.uuid}">
+                                                <p style="float:right;">
+                                                <span th:text="${obj1.names}" th:attr="d=${obj1.uuid},x=${obj1.types}"
+                                                      onclick="click_getPer()"></span>
+                                                </p>
+                                                <ul th:each="obj3,s3:${usermodel}">
+                                                    <li data-jstree='"type":"css"}'
+                                                        th:if="${obj3.position == obj1.uuid}">
+                                                        <p style="float:right;">
+                                                <span th:text="${obj3.username}" th:attr="d=${obj3.uuid},x=${obj3.acctype}"
+                                                      onclick="click_getPermission(this)"></span>
+                                                        </p>
+                                                    </li>
+                                                </ul>
+                                                <ul th:each="obj2,s2:${list}">
+                                                    <li data-jstree='"type":"css"}'
+                                                        th:if="${obj2.parents == obj1.uuid}">
+                                                        <p style="float:right;">
+                                                <span th:text="${obj2.names}" th:attr="d=${obj2.uuid},x=${obj2.types}"
+                                                      onclick="click_getPer()"></span>
+                                                        </p>
+                                                        <ul th:each="obj3,s3:${usermodel}">
+                                                            <li data-jstree='"type":"css"}'
+                                                                th:if="${obj3.position == obj2.uuid}">
+                                                                <p style="float:right;">
+                                                <span th:text="${obj3.username}" th:attr="d=${obj3.uuid},x=${obj3.acctype}"
+                                                      onclick="click_getPermission(this)"></span>
+                                                                </p>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8 col-xs-12 col-sm-8">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+
+                        <div class="ibox-content">
+                            <div class="table-responsive">
+                                <form th:action="@{/userJurisdiction/addOrUpdate}" method="post">
+                                <table class="table table-striped table-bordered table-hover dataTables-example">
+                                    <thead>
+                                    <a class="all">全&nbsp;&nbsp;选&nbsp;&nbsp;</a><a class="none">/&nbsp;&nbsp;全不选</a>
+                                    <tr>
+                                        <th>选择</th>
+                                        <th>序号</th>
+                                        <th>权限名称</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="permissions">
+                                        <tr th:each="JurisdictionModel,Stat:${pager}" th:class="${JurisdictionModel.uuid}">
+                                            <td>
+                                                <input type="checkbox" th:id="${JurisdictionModel.uuid}"
+                                                       th:value="${JurisdictionModel.uuid}" name="jurisdictionId" class="jurisdictionId"/>
+                                            </td>
+                                            <td th:text="${Stat.index+1}"></td>
+                                            <td th:text="${JurisdictionModel.juname}"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <input type="hidden" class="userId" name="userId"/>
+                                <input type="submit" value="提交"/>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Mainly scripts -->
+<script th:src="@{/js/jquery-2.1.1.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/plugins/metisMenu/jquery.metisMenu.js}"></script>
+<script th:src="@{/js/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+
+<!-- Custom and plugin javascript -->
+<script th:src="@{/js/inspinia.js}"></script>
+<script th:src="@{/js/plugins/jsTree/jstree.min.js}"></script>
+<script th:src="@{/style/js/js.js}" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+			$(document).ready(function() {
+
+				$('#jstree1').jstree({
+					'core': {
+						'check_callback': true
+					},
+					'plugins': ['types', 'dnd'],
+					'types': {
+						'default': {
+							'icon': 'fa fa-user'
+						},
+						'html': {
+							'icon': 'fa fa-file-code-o'
+						},
+						'svg': {
+							'icon': 'fa fa-file-picture-o'
+						},
+						'css': {
+							'icon': 'fa fa-file-code-o'
+						},
+						'img': {
+							'icon': 'fa fa-file-image-o'
+						},
+						'js': {
+							'icon': 'fa fa-file-text-o'
+						}
+
+					}
+				});
+
+				$('#using_json').jstree({
+					'core': {
+						'data': [
+							'Empty Folder',
+							{
+								'text': 'Resources',
+								'state': {
+									'opened': true
+								},
+								'children': [{
+										'text': 'css',
+										'children': [{
+												'text': 'animate.css',
+												'icon': 'none'
+											},
+											{
+												'text': 'bootstrap.css',
+												'icon': 'none'
+											},
+											{
+												'text': 'main.css',
+												'icon': 'none'
+											},
+											{
+												'text': 'style.css',
+												'icon': 'none'
+											}
+										],
+										'state': {
+											'opened': true
+										}
+									},
+									{
+										'text': 'js',
+										'children': [{
+												'text': 'bootstrap.js',
+												'icon': 'none'
+											},
+											{
+												'text': 'inspinia.min.js',
+												'icon': 'none'
+											},
+											{
+												'text': 'jquery.min.js',
+												'icon': 'none'
+											},
+											{
+												'text': 'jsTree.min.js',
+												'icon': 'none'
+											},
+											{
+												'text': 'custom.min.js',
+												'icon': 'none'
+											}
+										],
+										'state': {
+											'opened': true
+										}
+									},
+									{
+										'text': 'html',
+										'children': [{
+												'text': 'layout.html',
+												'icon': 'none'
+											},
+											{
+												'text': 'navigation.html',
+												'icon': 'none'
+											},
+											{
+												'text': 'navbar.html',
+												'icon': 'none'
+											},
+											{
+												'text': 'footer.html',
+												'icon': 'none'
+											},
+											{
+												'text': 'sidebar.html',
+												'icon': 'none'
+											}
+										],
+										'state': {
+											'opened': true
+										}
+									}
+								]
+							},
+							'Fonts',
+							'Images',
+							'Scripts',
+							'Templates',
+						]
+					}
+				});
+
+			});
+</script>
+<script th:inline="javascript">
+/*<![CDATA[*/
+    var path = /*[[${#httpServletRequest.getScheme()
+					+ "://" + #httpServletRequest.getServerName()
+					+ ":" + #httpServletRequest.getServerPort()
+					+ #httpServletRequest.getContextPath()}]]*/;
+
+    function click_getPer()
+    {
+        $('.userId').removeAttr('value');
+    }
+
+    function click_getPermission(obj){
+        var id = $(obj).attr('d');
+        $('.userId').prop('value',id);
+        $.ajax({
+            url:path+"/userJurisdiction/findByUserId",    //请求的url地址
+            dataType:"json",   //返回格式为json
+            async:false,//请求是否异步，默认为异步，这也是ajax重要特性
+            data:{"id":id},    //参数值
+            type:"post",   //请求方式
+            success:function(req){
+                //请求成功时处理
+                $(req).each(function(index,e){
+                var ju = "#"+e.jurisdictionId;
+                    $('.permissions').find(ju).prop('checked','checked');
+                });
+            },
+            error:function(){
+                //请求出错处理
+                alert('获取人员出错');
+            }
+        });
+    }
+
+    $('.all').click(function()
+    {
+        $('.jurisdictionId').prop('checked','checked')
+    });
+    $('.none').click(function()
+    {
+        $('.jurisdictionId').removeAttr('checked')
+    });
+
+/*]]>*/
+</script>
+</body>
+</html>

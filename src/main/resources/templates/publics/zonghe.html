@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      style="height:100%">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="context-path" th:content="@{/}"/>
+    <style type="text/css">
+       	#test tr td{
+       		border: 1px solid #ccc;
+       		padding: 10px;
+       	}
+    </style>
+</head>
+<body style="height: 100%; margin: 0">
+<div id="container" style="height: 100%"></div>
+<script type="text/javascript" th:src="@{/style/js2/echarts-all-3.js}"></script>
+<script type="text/javascript" th:src="@{/style/js2/ecStat.min.js}"></script>
+<script type="text/javascript" th:src="@{/style/js2/dataTool.min.js}"></script>
+<script type="text/javascript" th:src="@{/style/js2/china.js}"></script>
+<script type="text/javascript" th:src="@{/style/js2/world.js}"></script>
+<script type="text/javascript" th:src="@{/style/js2/bmap.min.js}"></script>
+<script th:inline="javascript">
+/*<![CDATA[*/
+var dom = document.getElementById("container");
+var myChart = echarts.init(dom);
+var app = {};
+option = null;
+app.title = '折柱混合';
+
+option = {
+    tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+            type: 'cross',
+            crossStyle: {
+                color: '#999'
+            }
+        }
+    },
+    toolbox: {
+        feature: {
+        },
+    },
+    legend: {
+        data:['水','电','热']
+    },
+    xAxis: [
+        {
+            type: 'category',
+            data: ['7-12','7-13','7-14','7-15','7-16','7-17','7-18','7-19','7-20','7-21','7-22','7-23'],
+            axisPointer: {
+                type: 'shadow'
+            }
+        }
+    ],
+    yAxis: [
+        {   
+            type: 'value',
+            name: '时间',
+            min: 0,
+            max: 24,
+            interval: 2,
+            axisLabel: {
+                formatter: '{value} 时'
+            }
+        },
+        {
+            type: 'value',
+            name: '总能耗',
+            min: 0,
+            max: 60,
+            interval: 5,
+            axisLabel: {
+                formatter: '{value}'
+            } 
+        }
+    ],
+//    grid: { // 控制图的大小，调整下面这些值就可以，
+//           x: 20,
+//           x2: 100,
+//           y2: 100,// y2可以控制 X轴跟Zoom控件之间的间隔，避免以为倾斜后造成 label重叠到zoom上
+//       },
+
+    series: [
+        {
+            name:'水',
+            type:'line',
+            data:[2.0, 4.9, 7.0, 23.2, 21.6, 22, 2.6, 3.2, 22.6, 20.0, 6.4, 3.3]
+        },
+        {
+            name:'电',
+            type:'line',
+            data:[2.6, 5.9, 9.0, 20.4, 22.7, 7.2, 3.2, 22.2, 4.7, 11.8, 6.0, 2.3]
+        },
+        {
+            name:'热',
+            type:'line',
+            data:[2.6, 5.9, 9.0, 20.4, 12.7, 7.7, 1.2, 24.2, 4.7, 18.8, 6.0, 2.3]
+        }
+    ]
+};
+;
+if (option && typeof option === "object") {
+    myChart.setOption(option, true);
+}
+/*]]>*/
+</script>
+</body>
+</html>

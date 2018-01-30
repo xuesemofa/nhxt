@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+	  xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<meta name="context-path" th:content="@{/}"/>
+	<title>INSPINIA | Empty Page</title>
+	<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+	<link th:href="@{/font-awesome/css/font-awesome.css}" rel="stylesheet"/>
+	<link th:href="@{/css/animate.css}" rel="stylesheet"/>
+	<link th:href="@{/css/style.css}" rel="stylesheet"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/style/modify.css}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/style/style.css}"/>
+	<link th:href="@{/css/plugins/footable/footable.core.css}" rel="stylesheet"/>
+	<style type="text/css">
+        .boxcc{
+            overflow-x: scroll;
+        }
+        .scrolling_outer{
+            min-width: 1200px;
+        }
+            .hh{
+            cursor: pointer;
+            position: relative;
+        }
+        .hh:hover{
+        }
+        .hh:hover .th-box{
+            display: block;
+        }
+        .th-box{
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: #fff;
+            display: none;
+            width: 100%;
+            height: 100%;
+        }
+        .th-box a{
+            display: inline-block;
+            float: left;
+            line-height: 47px;
+            width: 50%;
+            text-align: center;
+        }
+        .th-box a:first-child:hover{
+            background: #ccc;
+        }
+        .th-box a:last-child:hover{
+            background: #ccc;
+        }
+        #yourTableID2 tr th,#yourTableID2 tr td{
+            text-align: center;
+        }
+        </style>
+	<!--<style>
+    .abutton{
+        background: #1ab394;
+        border-radius: 5px;
+        color: #fff;
+        font-weight: bold;
+    }
+    </style>-->
+</head>
+
+<body class="color">
+
+<div class="wrapper wrapper-content animated fadeInRight">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<div class="ibox-tools">
+						<!--<a style="background: #18a689;" onclick="javascript:getTable();" >导出数据</a>-->
+						<a style="background: #18a689;"
+						   class="fa fa-arrow-left"
+						   href="javascript:history.go(-1);"></a>
+					</div>
+				</div>
+				<div class="ibox-content">
+					<div class="boxcc">
+						<table
+								class="table table-striped table-bordered table-hover dataTables-example">
+							<thead>
+							<tr>
+								<th style="width: 5%;">序号</th>
+								<th>小区名称</th>
+								<th>终端用户户数</th>
+								<th>热计量表编号</th>
+								<th>sim号</th>
+								<th>供热面积</th>
+								<th>采集时间</th>
+								<th>供水温度</th>
+								<th>回水温度</th>
+								<th>总热量</th>
+								<th>热功率</th>
+								<th>瞬时流量</th>
+								<th>总流量</th>
+								<th>单耗热量</th>
+								<th>备注</th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr class="gradeX" th:each="Model,ModelStar:${pager}">
+								<td th:text="${ModelStar.index+1}">序号</td>
+								<th th:text="${Model.name}">小区名称</th>
+								<th th:text="${Model.hs}">终端用户户数</th>
+								<th th:text="${Model.bh}">热计量表编号</th>
+								<th th:text="${Model.sim}">sim号</th>
+								<th th:text="${Model.mj}">供热面积</th>
+								<th th:text="${Model.dates}">采集时间</th>
+								<th th:text="${Model.gw}">供水温度</th>
+								<th th:text="${Model.hw}">回水温度</th>
+								<th th:text="${Model.zrl}">总热量</th>
+								<th th:text="${Model.rgv}">热功率</th>
+								<th th:text="${Model.ssll}">瞬时流量</th>
+								<th th:text="${Model.zll}">总流量</th>
+								<th th:text="${Model.dhrl}">单耗热量</th>
+								<th th:text="${Model.bz}">备注</th>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+					<!--//分页-->
+					<div class="page">
+						<nav aria-label="Page navigation" th:if="${pager != null}">
+							<ul class="pagination" th:if="${pager.pages } != 0 ">
+
+								<li>
+									<a th:href="@{/xq/init(username=${username})}" aria-label="Previous"> <span
+											aria-hidden="true">&laquo;</span>
+									</a>
+								</li>
+
+								<li th:each="i:${#numbers.sequence(1,pager.pages)}">
+									<a th:href="@{/xq/init(pageNow=${i},username=${username})}" th:text="${i}"></a>
+								</li>
+
+								<li>
+									<a th:href="@{/xq/init(pageNow=${pager.pages},username=${username})}" aria-label="Next"> <span
+											aria-hidden="true">&raquo;</span>
+									</a>
+								</li>
+
+							</ul>
+						</nav>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script th:src="@{/js/jquery-2.1.1.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/plugins/metisMenu/jquery.metisMenu.js}"></script>
+<script th:src="@{/js/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+<script th:src="@{/js/inspinia.js}"></script>
+<script th:src="@{/style/jquery.freezeheader.js}" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" th:src="@{/style/jquery-ui-1.7.2.custom.min.js}"></script>
+<script type="text/javascript" th:src="@{/style/jquery.chromatable.js}"></script>
+<script th:inline="javascript">
+/*<![CDATA[*/
+var path = /*[[${#httpServletRequest.getScheme()
+                    + "://" + #httpServletRequest.getServerName()
+                    + ":" + #httpServletRequest.getServerPort()
+                    + #httpServletRequest.getContextPath()}]]*/;
+
+    $(document).ready(function(){
+        $("#yourTableID2").chromatable({
+            width: "auto",
+            height: "700px",
+            scrolling: "yes"
+        });
+    })
+
+/*]]>*/
+</script>
+</body>
+
+</html>

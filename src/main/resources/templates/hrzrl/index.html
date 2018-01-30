@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+      xmlns="http://www.w3.org/1999/xhtml" style="height: 100%">
+
+<head>
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="context-path" th:content="@{/}"/>
+</head>
+<body style="height: 100%; margin: 0">
+<input type="hidden" th:value="${id}" id="query_id"/>
+<div id="container" style="height: 100%"></div>
+
+<div class="table-responsive">
+    <table style="width:100%;border:1px solid #ccc;">
+        <thead>
+        <tr id="ths">
+        </tr>
+        </thead>
+        <tbody>
+        <tr id="tds">
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script th:src="@{/js/jquery-2.1.1.js}"></script>
+<script type="text/javascript" th:src="@{/style/js2/echarts-all-3.js}"></script>
+<script type="text/javascript" th:src="@{/style/js2/ecStat.min.js}"></script>
+<script type="text/javascript" th:src="@{/style/js2/dataTool.min.js}"></script>
+<script type="text/javascript" th:src="@{/style/js2/china.js}"></script>
+<script type="text/javascript" th:src="@{/style/js2/world.js}"></script>
+<script type="text/javascript" th:src="@{/style/js2/bmap.min.js}"></script>
+<script th:inline="javascript">
+/*<![CDATA[*/
+var ids = $('#query_id').val();
+var path = /*[[${#httpServletRequest.getScheme()
+					+ "://" + #httpServletRequest.getServerName()
+					+ ":" + #httpServletRequest.getServerPort()
+					+ #httpServletRequest.getContextPath()}]]*/;
+$(function(){
+    //获得后台数据
+    var v;
+    var dates;
+    var title_data;
+
+    $.ajax({
+        url: path+"/hrzrl/qurey",
+        async: false,
+        type: 'post',
+        data:{"id":ids},
+        dataType: 'json',
+        timeout: 1000,
+        cache: false,
+        success: function (req) {
+            dates = req.k;
+            v = req.v;
+            $(req.k).each(function(index,e){
+                $('#ths').append("<th>"+e+"</th>");
+            });
+            $(req.v).each(function(index,e){
+                $('#tds').append("<th>"+e+"</th>");
+            });
+        },
+        error: erryFunction
+    });
+    function erryFunction() {
+        alert("数据没返回成功！");
+    };
+
+    var dom = document.getElementById("container");
+    var myChart = echarts.init(dom);
+    var option = {
+        title: {
+                text: "换热站热能损耗",
+                subtext: ""
+            },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                    color: '#999'
+                }
+            }
+        },
+        toolbox: {
+            feature: {
+                magicType: {show: false, type: ['line', 'bar']},
+                restore: {show: false},
+                saveAsImage: {show: false}
+            }
+        },
+        legend: {
+            data:['吉焦']
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: dates,
+                interval: 10,
+                axisPointer: {
+                    type: 'shadow'
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: '吉焦',
+                min: 0,
+                max: 100000,
+                interval: 10000,
+                axisLabel: {
+                    formatter: '{value}GJ'
+                }
+            }
+        ],
+        series: [
+            {
+                name:'吉焦',
+                type:'line',
+                data:v
+            }
+        ]
+    };
+    myChart.setOption(option);
+
+});
+/*]]>*/
+
+
+
+
+
+
+
+
+
+</script>
+</body>
+</html>

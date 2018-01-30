@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+      xmlns="http://www.w3.org/1999/xhtml" style="height: 100%">
+
+<head>
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="context-path" th:content="@{/}"/>
+    <style type="text/css">
+       	#test tr td{
+       		border: 1px solid #ccc;
+       		padding: 10px;
+       	}
+
+
+
+
+    </style>
+</head>
+<body style="height: 100%; margin: 0">
+<input type="hidden" th:value="${id}" id="query_id"/>
+<div id="container" style="height: 100%"></div>
+<div id="container1" style="height: 100%"></div>
+<div id="container2" style="height: 100%"></div>
+<div id="container3" style="height: 100%"></div>
+<script th:src="@{/js/jquery-2.1.1.js}"></script>
+<script type="text/javascript" th:src="@{/style/js2/echarts-all-3.js}"></script>
+<script type="text/javascript" th:src="@{/style/js2/ecStat.min.js}"></script>
+<script type="text/javascript" th:src="@{/style/js2/dataTool.min.js}"></script>
+<script type="text/javascript" th:src="@{/style/js2/china.js}"></script>
+<script type="text/javascript" th:src="@{/style/js2/world.js}"></script>
+<script type="text/javascript" th:src="@{/style/js2/bmap.min.js}"></script>
+<script th:inline="javascript">
+/*<![CDATA[*/
+var ids = $('#query_id').val();
+var path = /*[[${#httpServletRequest.getScheme()
+					+ "://" + #httpServletRequest.getServerName()
+					+ ":" + #httpServletRequest.getServerPort()
+					+ #httpServletRequest.getContextPath()}]]*/;
+<!--一网供温回温-->
+$(function(){
+    //获得后台数据
+    var gw_a_data;
+    var gw_b_data;
+    var hw_a_data;
+    var hw_b_data;
+    var pj_a_data;
+    var pj_b_data;
+    var title_data;
+
+    var gy_a_data;
+    var gy_b_data;
+    var hy_a_data;
+    var hy_b_data;
+    var pjy_a_data;
+    var pjy_b_data;
+    var title_data2;
+
+
+    var gw_a_data2;
+    var gw_b_data2;
+    var hw_a_data2;
+    var hw_b_data2;
+    var pj_a_data2;
+    var pj_b_data2;
+    var title_data2;
+
+    var gy_a_data2;
+    var gy_b_data2;
+    var hy_a_data2;
+    var hy_b_data2;
+    var pjy_a_data2;
+    var pjy_b_data2;
+    var title_data22;
+
+    $.ajax({
+        url: path+"/unitcomparison/getJson",
+        async: false,
+        type: 'post',
+        data:{"id":ids},
+        dataType: 'json',
+        timeout: 1000,
+        cache: false,
+        success: function (req) {
+            gw_a_data = req.gw_a_data
+            gw_b_data = req.gw_b_data
+            hw_a_data = req.hw_a_data
+            hw_b_data = req.hw_b_data
+            pj_a_data = req.pj_a_data
+            pj_b_data = req.pj_b_data
+            title_data = req.title_data;
+
+            gy_a_data = req.gy_a_data
+            gy_b_data = req.gy_b_data
+            hy_a_data = req.hy_a_data
+            hy_b_data = req.hy_b_data
+            pjy_a_data = req.pjy_a_data
+            pjy_b_data = req.pjy_b_data
+            title_data2 = req.title_data2;
+
+
+            gw_a_data2 = req.gw_a_data2
+            gw_b_data2 = req.gw_b_data2
+            hw_a_data2 = req.hw_a_data2
+            hw_b_data2 = req.hw_b_data2
+            pj_a_data2 = req.pj_a_data2
+            pj_b_data2 = req.pj_b_data2
+            title_data21 = req.title_data21;
+
+            gy_a_data2 = req.gy_a_data2
+            gy_b_data2 = req.gy_b_data2
+            hy_a_data2 = req.hy_a_data2
+            hy_b_data2 = req.hy_b_data2
+            pjy_a_data2 = req.pjy_a_data2
+            pjy_b_data2 = req.pjy_b_data2
+            title_data22 = req.title_data22;
+        },
+        error: erryFunction
+    });
+    function erryFunction() {
+        alert("数据没返回成功！");
+    };
+
+    var dom = document.getElementById("container");
+    var myChart = echarts.init(dom);
+    var option = {
+        title: {
+                text: "一网供温回温",
+                subtext: ""
+            },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                    color: '#999'
+                }
+            }
+        },
+        toolbox: {
+            feature: {
+                magicType: {show: false, type: ['line', 'bar']},
+                restore: {show: false},
+                saveAsImage: {show: false}
+            }
+        },
+        legend: {
+            data:title_data
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
+                axisPointer: {
+                    type: 'shadow'
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: '温度',
+                min: 0,
+                max: 100,
+                interval: 10,
+                axisLabel: {
+                    formatter: '{value} °C'
+                }
+            },
+            {
+                type: 'value',
+                name: '温度',
+                min: 0,
+                max: 100,
+                show:false,
+                interval: 10,
+                axisLabel: {
+                    formatter: '{value} °C'
+                }
+            }
+        ],
+        series: [
+            {
+                name:title_data[0] == null ? '':title_data[0],
+                type:'bar',
+                data:gw_a_data
+            },
+            {
+                name:title_data[1] == null ? '':title_data[1],
+                type:'bar',
+                data:hw_a_data
+            },
+            {
+                name:title_data[2] == null ? '':title_data[2],
+                type:'bar',
+                data:gw_b_data
+            },
+            {
+                name:title_data[3] == null ? '':title_data[3],
+                type:'bar',
+                data:hw_b_data
+            },
+            {
+                name:title_data[4] == null ? '':title_data[4],
+                type:'line',
+                yAxisIndex: 1,
+                data:pj_a_data
+            },
+            {
+                name:title_data[5] == null ? '':title_data[5],
+                type:'line',
+                yAxisIndex: 1,
+                data:pj_b_data
+            }
+        ]
+    };
+    myChart.setOption(option);
+
+    <!--压力-->
+    var dom2 = document.getElementById("container1");
+    var myChart2 = echarts.init(dom2);
+    var option2 = {
+        title: {
+                text: "一网供压回压",
+                subtext: ""
+            },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                    color: '#999'
+                }
+            }
+        },
+        toolbox: {
+            feature: {
+                magicType: {show: false, type: ['line', 'bar']},
+                restore: {show: false},
+                saveAsImage: {show: false}
+            }
+        },
+        legend: {
+            data:title_data2
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
+                axisPointer: {
+                    type: 'shadow'
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: '压力',
+                min: 0,
+                max: 1000,
+                interval: 100,
+                axisLabel: {
+                    formatter: '{value}'
+                }
+            },
+            {
+                type: 'value',
+                name: '压力',
+                min: 0,
+                max: 1000,
+                show:false,
+                interval: 100,
+                axisLabel: {
+                    formatter: '{value}'
+                }
+            }
+        ],
+        series: [
+            {
+                name:title_data2[0] == null ? '':title_data2[0],
+                type:'bar',
+                data:gy_a_data
+            },
+            {
+                name:title_data2[1] == null ? '':title_data2[1],
+                type:'bar',
+                data:hy_a_data
+            },
+            {
+                name:title_data2[2] == null ? '':title_data2[2],
+                type:'bar',
+                data:gy_b_data
+            },
+            {
+                name:title_data2[3] == null ? '':title_data2[3],
+                type:'bar',
+                data:hy_b_data
+            },
+            {
+                name:title_data2[4] == null ? '':title_data2[4],
+                type:'line',
+                yAxisIndex: 1,
+                data:pjy_a_data
+            },
+            {
+                name:title_data2[5] == null ? '':title_data2[5],
+                type:'line',
+                yAxisIndex: 1,
+                data:pjy_b_data
+            }
+        ]
+    };
+    myChart2.setOption(option2);
+
+    <!--二网-->
+    <!--温度-->
+    <!--压力-->
+    var dom3 = document.getElementById("container2");
+    var myChart3 = echarts.init(dom3);
+    var option3 = {
+        title: {
+                text: "二网供温回温",
+                subtext: ""
+            },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                    color: '#999'
+                }
+            }
+        },
+        toolbox: {
+            feature: {
+                magicType: {show: false, type: ['line', 'bar']},
+                restore: {show: false},
+                saveAsImage: {show: false}
+            }
+        },
+        legend: {
+            data:title_data21
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
+                axisPointer: {
+                    type: 'shadow'
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: '温度',
+                min: 0,
+                max: 100,
+                interval: 10,
+                axisLabel: {
+                    formatter: '{value}°C'
+                }
+            },
+            {
+                type: 'value',
+                name: '温度',
+                min: 0,
+                max: 100,
+                show:false,
+                interval: 10,
+                axisLabel: {
+                    formatter: '{value}°C'
+                }
+            }
+        ],
+        series: [
+            {
+                name:title_data21[0] == null ? '':title_data21[0],
+                type:'bar',
+                data:gw_a_data2
+            },
+            {
+                name:title_data21[1] == null ? '':title_data21[1],
+                type:'bar',
+                data:hw_a_data2
+            },
+            {
+                name:title_data21[2] == null ? '':title_data21[2],
+                type:'bar',
+                data:gw_b_data2
+            },
+            {
+                name:title_data21[3] == null ? '':title_data21[3],
+                type:'bar',
+                data:hw_b_data2
+            },
+            {
+                name:title_data21[4] == null ? '':title_data21[4],
+                type:'line',
+                yAxisIndex: 1,
+                data:pj_a_data2
+            },
+            {
+                name:title_data21[5] == null ? '':title_data21[5],
+                type:'line',
+                yAxisIndex: 1,
+                data:pj_b_data2
+            }
+        ]
+    };
+    myChart3.setOption(option3);
+
+    var dom4 = document.getElementById("container3");
+    var myChart4 = echarts.init(dom4);
+    var option4 = {
+        title: {
+                text: "二网供压回压",
+                subtext: ""
+            },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                    color: '#999'
+                }
+            }
+        },
+        toolbox: {
+            feature: {
+                magicType: {show: false, type: ['line', 'bar']},
+                restore: {show: false},
+                saveAsImage: {show: false}
+            }
+        },
+        legend: {
+            data:title_data22
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
+                axisPointer: {
+                    type: 'shadow'
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: '压力',
+                min: 0,
+                max: 1000,
+                interval: 100,
+                axisLabel: {
+                    formatter: '{value}'
+                }
+            },
+            {
+                type: 'value',
+                name: '压力',
+                min: 0,
+                max: 1000,
+                show:false,
+                interval: 100,
+                axisLabel: {
+                    formatter: '{value}'
+                }
+            }
+        ],
+        series: [
+            {
+                name:title_data22[0] == null ? '':title_data22[0],
+                type:'bar',
+                data:gy_a_data2
+            },
+            {
+                name:title_data22[1] == null ? '':title_data22[1],
+                type:'bar',
+                data:hy_a_data2
+            },
+            {
+                name:title_data22[2] == null ? '':title_data22[2],
+                type:'bar',
+                data:gy_b_data2
+            },
+            {
+                name:title_data22[3] == null ? '':title_data22[3],
+                type:'bar',
+                data:hy_b_data2
+            },
+            {
+                name:title_data22[4] == null ? '':title_data22[4],
+                type:'line',
+                yAxisIndex: 1,
+                data:pjy_a_data2
+            },
+            {
+                name:title_data22[5] == null ? '':title_data22[5],
+                type:'line',
+                yAxisIndex: 1,
+                data:pjy_b_data2
+            }
+        ]
+    };
+    myChart4.setOption(option4);
+});
+
+<!--&lt;!&ndash;一网供压回压&ndash;&gt;-->
+<!--$(function(){-->
+    <!--//获得后台数据-->
+    <!--var gy_a_data;-->
+    <!--var gy_b_data;-->
+    <!--var hy_a_data;-->
+    <!--var hy_b_data;-->
+    <!--var pjy_a_data;-->
+    <!--var pjy_b_data;-->
+    <!--var title_data2;-->
+
+    <!--$.ajax({-->
+        <!--url: path+"/unitcomparison/getJson",-->
+        <!--async: false,-->
+        <!--type: 'post',-->
+        <!--data:{"id":ids},-->
+        <!--dataType: 'json',-->
+        <!--timeout: 1000,-->
+        <!--cache: false,-->
+        <!--success: function (req) {-->
+            <!--gy_a_data = req.gy_a_data-->
+            <!--gy_b_data = req.gy_b_data-->
+            <!--hy_a_data = req.hy_a_data-->
+            <!--hy_b_data = req.hy_b_data-->
+            <!--pjy_a_data = req.pjy_a_data-->
+            <!--pjy_b_data = req.pjy_b_data-->
+            <!--title_data2 = req.title_data2;-->
+        <!--},-->
+        <!--error: erryFunction-->
+    <!--});-->
+    <!--function erryFunction() {-->
+        <!--alert("数据没返回成功！");-->
+    <!--};-->
+
+    <!--var dom = document.getElementById("container1");-->
+    <!--var myChart = echarts.init(dom);-->
+    <!--var option = {-->
+        <!--title: {-->
+                <!--text: "一网供压回压",-->
+                <!--subtext: ""-->
+            <!--},-->
+        <!--tooltip: {-->
+            <!--trigger: 'axis',-->
+            <!--axisPointer: {-->
+                <!--type: 'cross',-->
+                <!--crossStyle: {-->
+                    <!--color: '#999'-->
+                <!--}-->
+            <!--}-->
+        <!--},-->
+        <!--toolbox: {-->
+            <!--feature: {-->
+                <!--magicType: {show: false, type: ['line', 'bar']},-->
+                <!--restore: {show: false},-->
+                <!--saveAsImage: {show: false}-->
+            <!--}-->
+        <!--},-->
+        <!--legend: {-->
+            <!--data:title_data-->
+        <!--},-->
+        <!--xAxis: [-->
+            <!--{-->
+                <!--type: 'category',-->
+                <!--data: ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],-->
+                <!--axisPointer: {-->
+                    <!--type: 'shadow'-->
+                <!--}-->
+            <!--}-->
+        <!--],-->
+        <!--yAxis: [-->
+            <!--{-->
+                <!--type: 'value',-->
+                <!--name: '压力',-->
+                <!--min: 0,-->
+                <!--max: 100,-->
+                <!--interval: 10,-->
+                <!--axisLabel: {-->
+                    <!--formatter: '{value} par'-->
+                <!--}-->
+            <!--},-->
+            <!--{-->
+                <!--type: 'value',-->
+                <!--name: '压力',-->
+                <!--min: 0,-->
+                <!--max: 100,-->
+                <!--show:false,-->
+                <!--interval: 10,-->
+                <!--axisLabel: {-->
+                    <!--formatter: '{value} par'-->
+                <!--}-->
+            <!--}-->
+        <!--],-->
+        <!--series: [-->
+            <!--{-->
+                <!--name:title_data2[0] == null ? '':title_data[0],-->
+                <!--type:'bar',-->
+                <!--data:gw_a_data-->
+            <!--},-->
+            <!--{-->
+                <!--name:title_data2[1] == null ? '':title_data[1],-->
+                <!--type:'bar',-->
+                <!--data:hw_a_data-->
+            <!--},-->
+            <!--{-->
+                <!--name:title_data2[2] == null ? '':title_data[2],-->
+                <!--type:'bar',-->
+                <!--data:gw_b_data-->
+            <!--},-->
+            <!--{-->
+                <!--name:title_data2[3] == null ? '':title_data[3],-->
+                <!--type:'bar',-->
+                <!--data:hw_b_data-->
+            <!--},-->
+            <!--{-->
+                <!--name:title_data2[4] == null ? '':title_data[4],-->
+                <!--type:'line',-->
+                <!--yAxisIndex: 1,-->
+                <!--data:pj_a_data-->
+            <!--},-->
+            <!--{-->
+                <!--name:title_data2[5] == null ? '':title_data[5],-->
+                <!--type:'line',-->
+                <!--yAxisIndex: 1,-->
+                <!--data:pj_b_data-->
+            <!--}-->
+        <!--]-->
+    <!--};-->
+    <!--myChart.setOption(option);-->
+<!--});-->
+
+<!--&lt;!&ndash;二网供温回温&ndash;&gt;-->
+<!--$(function(){-->
+    <!--//获得后台数据-->
+    <!--var gw_a_data;-->
+    <!--var gw_b_data;-->
+    <!--var hw_a_data;-->
+    <!--var hw_b_data;-->
+    <!--var pj_a_data;-->
+    <!--var pj_b_data;-->
+    <!--var title_data;-->
+
+    <!--$.ajax({-->
+        <!--url: path+"/unitcomparison/getJson",-->
+        <!--async: false,-->
+        <!--type: 'post',-->
+        <!--data:{"id":ids},-->
+        <!--dataType: 'json',-->
+        <!--timeout: 1000,-->
+        <!--cache: false,-->
+        <!--success: function (req) {-->
+            <!--gw_a_data = req.gw_a_data-->
+            <!--gw_b_data = req.gw_b_data-->
+            <!--hw_a_data = req.hw_a_data-->
+            <!--hw_b_data = req.hw_b_data-->
+            <!--pj_a_data = req.pj_a_data-->
+            <!--pj_b_data = req.pj_b_data-->
+            <!--title_data = req.title_data;-->
+        <!--},-->
+        <!--error: erryFunction-->
+    <!--});-->
+    <!--function erryFunction() {-->
+        <!--alert("数据没返回成功！");-->
+    <!--};-->
+
+    <!--var dom = document.getElementById("container2");-->
+    <!--var myChart = echarts.init(dom);-->
+    <!--var option = {-->
+        <!--title: {-->
+                <!--text: "二网供温回温",-->
+                <!--subtext: ""-->
+            <!--},-->
+        <!--tooltip: {-->
+            <!--trigger: 'axis',-->
+            <!--axisPointer: {-->
+                <!--type: 'cross',-->
+                <!--crossStyle: {-->
+                    <!--color: '#999'-->
+                <!--}-->
+            <!--}-->
+        <!--},-->
+        <!--toolbox: {-->
+            <!--feature: {-->
+                <!--magicType: {show: false, type: ['line', 'bar']},-->
+                <!--restore: {show: false},-->
+                <!--saveAsImage: {show: false}-->
+            <!--}-->
+        <!--},-->
+        <!--legend: {-->
+            <!--data:title_data-->
+        <!--},-->
+        <!--xAxis: [-->
+            <!--{-->
+                <!--type: 'category',-->
+                <!--data: ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],-->
+                <!--axisPointer: {-->
+                    <!--type: 'shadow'-->
+                <!--}-->
+            <!--}-->
+        <!--],-->
+        <!--yAxis: [-->
+            <!--{-->
+                <!--type: 'value',-->
+                <!--name: '温度',-->
+                <!--min: 0,-->
+                <!--max: 100,-->
+                <!--interval: 10,-->
+                <!--axisLabel: {-->
+                    <!--formatter: '{value} °C'-->
+                <!--}-->
+            <!--},-->
+            <!--{-->
+                <!--type: 'value',-->
+                <!--name: '温度',-->
+                <!--min: 0,-->
+                <!--max: 100,-->
+                <!--show:false,-->
+                <!--interval: 10,-->
+                <!--axisLabel: {-->
+                    <!--formatter: '{value} °C'-->
+                <!--}-->
+            <!--}-->
+        <!--],-->
+        <!--series: [-->
+            <!--{-->
+                <!--name:title_data[0] == null ? '':title_data[0],-->
+                <!--type:'bar',-->
+                <!--data:gw_a_data-->
+            <!--},-->
+            <!--{-->
+                <!--name:title_data[1] == null ? '':title_data[1],-->
+                <!--type:'bar',-->
+                <!--data:hw_a_data-->
+            <!--},-->
+            <!--{-->
+                <!--name:title_data[2] == null ? '':title_data[2],-->
+                <!--type:'bar',-->
+                <!--data:gw_b_data-->
+            <!--},-->
+            <!--{-->
+                <!--name:title_data[3] == null ? '':title_data[3],-->
+                <!--type:'bar',-->
+                <!--data:hw_b_data-->
+            <!--},-->
+            <!--{-->
+                <!--name:title_data[4] == null ? '':title_data[4],-->
+                <!--type:'line',-->
+                <!--yAxisIndex: 1,-->
+                <!--data:pj_a_data-->
+            <!--},-->
+            <!--{-->
+                <!--name:title_data[5] == null ? '':title_data[5],-->
+                <!--type:'line',-->
+                <!--yAxisIndex: 1,-->
+                <!--data:pj_b_data-->
+            <!--}-->
+        <!--]-->
+    <!--};-->
+    <!--myChart.setOption(option);-->
+<!--});-->
+
+<!--&lt;!&ndash;二网供压回压&ndash;&gt;-->
+<!--$(function(){-->
+    <!--//获得后台数据-->
+    <!--var gw_a_data;-->
+    <!--var gw_b_data;-->
+    <!--var hw_a_data;-->
+    <!--var hw_b_data;-->
+    <!--var pj_a_data;-->
+    <!--var pj_b_data;-->
+    <!--var title_data;-->
+
+    <!--$.ajax({-->
+        <!--url: path+"/unitcomparison/getJson",-->
+        <!--async: false,-->
+        <!--type: 'post',-->
+        <!--data:{"id":ids},-->
+        <!--dataType: 'json',-->
+        <!--timeout: 1000,-->
+        <!--cache: false,-->
+        <!--success: function (req) {-->
+            <!--gw_a_data = req.gw_a_data-->
+            <!--gw_b_data = req.gw_b_data-->
+            <!--hw_a_data = req.hw_a_data-->
+            <!--hw_b_data = req.hw_b_data-->
+            <!--pj_a_data = req.pj_a_data-->
+            <!--pj_b_data = req.pj_b_data-->
+            <!--title_data = req.title_data;-->
+        <!--},-->
+        <!--error: erryFunction-->
+    <!--});-->
+    <!--function erryFunction() {-->
+        <!--alert("数据没返回成功！");-->
+    <!--};-->
+
+    <!--var dom = document.getElementById("container3");-->
+    <!--var myChart = echarts.init(dom);-->
+    <!--var option = {-->
+        <!--title: {-->
+                <!--text: "二网供压回压",-->
+                <!--subtext: ""-->
+            <!--},-->
+        <!--tooltip: {-->
+            <!--trigger: 'axis',-->
+            <!--axisPointer: {-->
+                <!--type: 'cross',-->
+                <!--crossStyle: {-->
+                    <!--color: '#999'-->
+                <!--}-->
+            <!--}-->
+        <!--},-->
+        <!--toolbox: {-->
+            <!--feature: {-->
+                <!--magicType: {show: false, type: ['line', 'bar']},-->
+                <!--restore: {show: false},-->
+                <!--saveAsImage: {show: false}-->
+            <!--}-->
+        <!--},-->
+        <!--legend: {-->
+            <!--data:title_data-->
+        <!--},-->
+        <!--xAxis: [-->
+            <!--{-->
+                <!--type: 'category',-->
+                <!--data: ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],-->
+                <!--axisPointer: {-->
+                    <!--type: 'shadow'-->
+                <!--}-->
+            <!--}-->
+        <!--],-->
+        <!--yAxis: [-->
+            <!--{-->
+                <!--type: 'value',-->
+                <!--name: '压力',-->
+                <!--min: 0,-->
+                <!--max: 100,-->
+                <!--interval: 10,-->
+                <!--axisLabel: {-->
+                    <!--formatter: '{value} par'-->
+                <!--}-->
+            <!--},-->
+            <!--{-->
+                <!--type: 'value',-->
+                <!--name: '压力',-->
+                <!--min: 0,-->
+                <!--max: 100,-->
+                <!--show:false,-->
+                <!--interval: 10,-->
+                <!--axisLabel: {-->
+                    <!--formatter: '{value} par'-->
+                <!--}-->
+            <!--}-->
+        <!--],-->
+        <!--series: [-->
+            <!--{-->
+                <!--name:title_data[0] == null ? '':title_data[0],-->
+                <!--type:'bar',-->
+                <!--data:gw_a_data-->
+            <!--},-->
+            <!--{-->
+                <!--name:title_data[1] == null ? '':title_data[1],-->
+                <!--type:'bar',-->
+                <!--data:hw_a_data-->
+            <!--},-->
+            <!--{-->
+                <!--name:title_data[2] == null ? '':title_data[2],-->
+                <!--type:'bar',-->
+                <!--data:gw_b_data-->
+            <!--},-->
+            <!--{-->
+                <!--name:title_data[3] == null ? '':title_data[3],-->
+                <!--type:'bar',-->
+                <!--data:hw_b_data-->
+            <!--},-->
+            <!--{-->
+                <!--name:title_data[4] == null ? '':title_data[4],-->
+                <!--type:'line',-->
+                <!--yAxisIndex: 1,-->
+                <!--data:pj_a_data-->
+            <!--},-->
+            <!--{-->
+                <!--name:title_data[5] == null ? '':title_data[5],-->
+                <!--type:'line',-->
+                <!--yAxisIndex: 1,-->
+                <!--data:pj_b_data-->
+            <!--}-->
+        <!--]-->
+    <!--};-->
+    <!--myChart.setOption(option);-->
+<!--});-->
+/*]]>*/
+
+
+
+
+</script>
+</body>
+</html>

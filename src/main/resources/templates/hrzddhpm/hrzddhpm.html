@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="en"
+      xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <title>热源实时工况信息</title>
+
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/font-awesome/css/font-awesome.css}" rel="stylesheet"/>
+    <link th:href="@{/css/plugins/jsTree/style.min.css}" rel="stylesheet"/>
+    <link th:href="@{/css/animate.css}" rel="stylesheet"/>
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/style/modify.css}" />
+    <link th:href="@{/css/plugins/c3/c3.min.css}" rel="stylesheet"/>
+    <style type="text/css">
+			.qhye ul li{
+				list-style: none;
+				float: left;
+				padding: 5px 15px;
+				margin:0 5px;
+				background: #1ab394;
+				color: #fff;
+				cursor: pointer;
+			}
+			.qh:nth-child(2){
+				display:none;
+			}
+		</style>
+</head>
+
+<body class="color">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5 style="font-weight: bold;">五分公司电单耗排名</h5>
+                        </div>
+                        <div class="ibox-content" style="height:500px">
+                            <div class="ibox-title" style="height:500px">
+                                <div id="container" style="height: 100%"></div>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered table-hover dataTables-example">
+                                    <thead>
+                                    <tr>
+                                        <!--<th>序号</th>-->
+                                        <th>时间</th>
+                                        <th>第一</th>
+                                        <th>第二</th>
+                                        <th>第三</th>
+                                        <th>第四</th>
+                                        <th>第五</th>
+                                        <th>第六</th>
+                                        <th>第七</th>
+                                        <th>第八</th>
+                                        <th>第九</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="h,Stat:${h}">
+                                        <td th:text="${h[0].getZdname}"></td>
+                                        <td th:text="${h[1].getZdname}"></td>
+                                        <td th:text="${h[2].getZdname}"></td>
+                                        <td th:text="${h[3].getZdname}"></td>
+                                        <td th:text="${h[4].getZdname}"></td>
+                                        <td th:text="${h[5].getZdname}"></td>
+                                        <td th:text="${h[6].getZdname}"></td>
+                                        <td th:text="${h[7].getZdname}"></td>
+                                        <td th:text="${h[8].getZdname}"></td>
+                                        <td th:text="${h[9].getZdname}"></td>
+                                    </tr>
+                                    </tbody>
+                                    <!--<tfoot>-->
+                                    <!--<tr>-->
+                                        <!--<th colspan="5">-->
+                                            <!--&lt;!&ndash;//分页&ndash;&gt;-->
+                                            <!--<div class="page">-->
+                                                <!--<nav aria-label="Page navigation">-->
+                                                    <!--<ul class="pagination">-->
+                                                        <!--<li>-->
+                                                            <!--<a th:href="@{/#}" aria-label="Previous">-->
+                                                                <!--<span aria-hidden="true">&laquo;</span>-->
+                                                            <!--</a>-->
+                                                        <!--</li>-->
+                                                        <!--<li>-->
+                                                            <!--<a th:href="@{/#}">1</a>-->
+                                                        <!--</li>-->
+                                                        <!--<li>-->
+                                                            <!--<a th:href="@{/#}">2</a>-->
+                                                        <!--</li>-->
+                                                        <!--<li>-->
+                                                            <!--<a th:href="@{/#}">3</a>-->
+                                                        <!--</li>-->
+                                                        <!--<li>-->
+                                                            <!--<a th:href="@{/#}">4</a>-->
+                                                        <!--</li>-->
+                                                        <!--<li>-->
+                                                            <!--<a th:href="@{/#}">5</a>-->
+                                                        <!--</li>-->
+                                                        <!--<li>-->
+                                                            <!--<a th:href="@{/#}" aria-label="Next">-->
+                                                                <!--<span aria-hidden="true">&raquo;</span>-->
+                                                            <!--</a>-->
+                                                        <!--</li>-->
+                                                    <!--</ul>-->
+                                                <!--</nav>-->
+                                            <!--</div>-->
+                                        <!--</th>-->
+                                    <!--</tr>-->
+                                    <!--</tfoot>-->
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Mainly scripts -->
+<script th:src="@{/js/jquery-2.1.1.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/plugins/metisMenu/jquery.metisMenu.js}"></script>
+<script th:src="@{/js/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+
+<!-- Custom and plugin javascript -->
+<script th:src="@{/js/inspinia.js}"></script>
+<script th:src="@{/style/js/js.js}" type="text/javascript" charset="utf-8"></script>
+<script th:src="@{/js/plugins/pace/pace.min.js}"></script>
+<script th:src="@{/js/plugins/d3/d3.min.js}"></script>
+<script th:src="@{/js/plugins/c3/c3.min.js}"></script>
+<script type="text/javascript" th:src="@{/style/js2/echarts-all-3.js}"></script>
+<script type="text/javascript" th:src="@{/style/js2/ecStat.min.js}"></script>
+<script type="text/javascript" th:src="@{/style/js2/dataTool.min.js}"></script>
+<script type="text/javascript" th:src="@{/style/js2/china.js}"></script>
+<script type="text/javascript" th:src="@{/style/js2/world.js}"></script>
+<script type="text/javascript" th:src="@{/style/js2/bmap.min.js}"></script>
+<script th:inline="javascript">
+/*<![CDATA[*/
+var ids = $('#query_id').val();
+var path = /*[[${#httpServletRequest.getScheme()
+					+ "://" + #httpServletRequest.getServerName()
+					+ ":" + #httpServletRequest.getServerPort()
+					+ #httpServletRequest.getContextPath()}]]*/;
+
+$(function(){
+    forData();
+});
+function forData(){
+    <!--//获得后台数据-->
+    <!--var datas_data;-->
+    <!--var title_data;-->
+
+    <!--$.ajax({-->
+        <!--url: path+"/ryssgk/findByFour",-->
+        <!--async: false,-->
+        <!--type: 'post',-->
+        <!--data:{"t":str},-->
+        <!--dataType: 'json',-->
+        <!--timeout: 1000,-->
+        <!--cache: false,-->
+        <!--success: function (req) {-->
+            <!--datas_data = req.datas_data;-->
+            <!--title_data = req.title_data;-->
+        <!--},-->
+        <!--error: erryFunction-->
+    <!--});-->
+    <!--function erryFunction() {-->
+        <!--alert("数据没返回成功！");-->
+    <!--};-->
+
+    var dom = document.getElementById("container");
+    var myChart = echarts.init(dom);
+        var option = {
+        title: {
+                text: "",
+                subtext: ""
+            },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                    color: '#999'
+                }
+            }
+        },
+        toolbox: {
+            feature: {
+                magicType: {show: false, type: ['line', 'line']},
+                restore: {show: false},
+                saveAsImage: {show: false}
+            }
+        },
+        legend: {
+            data:['市政府','市公安局','庞大汽车城','圣水雅阁','御景生态家园','政务中心','公元2099C区','香格里拉','一零二号小区']
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: ['2017-12-26','2017-12-27'],
+                interval: 10,
+                axisPointer: {
+                    type: 'shadow'
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: '千瓦时/平方米',
+                min: 0,
+                max: 300000,
+                interval: 50000,
+                axisLabel: {
+                    formatter: '{value} kw.h/㎡'
+                }
+            }
+        ],
+        series: [
+            {
+                name:['市政府'],
+                type:'line',
+                data:['201480.453','202524.975']
+            },
+            {
+                name:['市公安局'],
+                type:'line',
+                data:['199372.362','201987.766']
+            }
+            ,
+            {
+                name:['庞大汽车城'],
+                type:'line',
+                data:['174236.763','176908.123']
+            },
+            {
+                name:['圣水雅阁'],
+                type:'line',
+                data:['153226.234','155508.763']
+            },
+            {
+                name:['御景生态家园'],
+                type:'line',
+                data:['152236.456','154908.134']
+            },
+            {
+                name:['政务中心'],
+                type:'line',
+                data:['131256.789','133208.666']
+            },
+            {
+                name:['公元2099C区'],
+                type:'line',
+                data:['110236.289','112908.766']
+            },
+            {
+                name:['香格里拉'],
+                type:'line',
+                data:['109238.362','111568.756']
+            },
+            {
+                name:['一零二号小区'],
+                type:'line',
+                data:['109223.389','110698.952']
+            }
+        ]
+        };
+    myChart.setOption(option);
+};
+
+/*]]>*/
+</script>
+</body>
+
+</html>

@@ -1,0 +1,46 @@
+<script th:inline="javascript">
+/*<![CDATA[*/
+<!--var id = $('#gsid').val();-->
+<!--var path = /*[[${#httpServletRequest.getScheme()-->
+					<!--+ "://" + #httpServletRequest.getServerName()-->
+					<!--+ ":" + #httpServletRequest.getServerPort()-->
+					<!--+ #httpServletRequest.getContextPath()}]]*/;-->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+      xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="context-path" th:content="@{/}"/>
+    <title>分公司数据</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/font-awesome/css/font-awesome.css}" rel="stylesheet"/>
+    <link th:href="@{/css/plugins/dataTables/datatables.min.css}" rel="stylesheet"/>
+    <link th:href="@{/css/animate.css}" rel="stylesheet"/>
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/style/modify.css}"/>
+</head>
+
+<!--$.ajax({-->
+    <!--url:path+"/exchange/queryByCompanyGetJson",-->
+    <!--dataType:"json",-->
+    <!--async:false,-->
+    <!--data:{"id":id},-->
+    <!--type:"post",-->
+    <!--success:function(req){-->
+        <!--var zds = '';-->
+        <!--$(req.zd).each(function(index,e){-->
+            <!--zds += "<div style='border-bottom:1px solid #e7e7e7;margin:0;'>"+e.names+"</div>";-->
+        <!--});-->
+            <!--&lt;!&ndash;$('#zdmc').append(zds);&ndash;&gt;-->
+    <!--},-->
+    <!--error: erryFunction-->
+<!--});-->
+<!--function erryFunction() {-->
+    <!--alert("数据没返回成功！");-->
+<!--};-->
+/*]]>*/
+
+
+</script>

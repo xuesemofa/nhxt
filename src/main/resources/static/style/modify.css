@@ -1,0 +1,322 @@
+/*//表格*/
+ul,li{
+	list-style:none;
+}
+.cur a {
+	display: inline-block;
+	padding: 5px 10px;
+}
+#C1,#C2,#C3{
+	border:1px solid #ccc;
+	padding:5px
+}
+#inp1,#inp2,#inp3,#inp4,#inp5,#inp6,#inp7,#inp8,#inp9,#inp10,#inp11,#inp12,#inp13,#inp14,#inp15,#inp16,#inp17,#inp18,#inp19,#inp20,#inp21{
+	border:1px solid #ccc;padding:5px;
+}
+.ibox-tools>button{
+	background: #1ab394;
+	border-radius: 5px;
+	color: #fff;
+	font-weight: bold;
+	margin-left:10px;
+	border:none;
+}
+.table-responsive table .gradeX td,.table-responsive table tr  td{
+vertical-align: middle;
+}
+.table-responsive #hrzyx tr  td{
+vertical-align: middle;
+text-align:center
+}
+.cur a:first-child {
+	background: #1ab394;
+	border-radius: 5px;
+	color: #fff;
+	font-weight: bold;
+}
+
+.cur a:last-child {
+	background: red;
+	border-radius: 5px;
+	color: #fff;
+	font-weight: bold;
+	margin-left: 10px;
+}
+.tj{
+	background: #1ab394;
+	border-radius: 5px;
+	color: #fff;
+	font-weight: bold;
+	padding:6px;
+	margin-left:10px;
+}
+.tj2{
+	background: #1ab394;
+	border-radius: 5px;
+	color: #fff;
+	font-weight: bold;
+	margin-left:10px;
+	border:none;
+}
+.tj:hover{
+	color:#fff;
+}
+.center .cur a.green{
+	background: #1ab394;
+	border-radius: 5px;
+	color: #fff;
+	font-weight: bold;
+}
+#pq{
+	width:500px;
+}
+.ibox-title h5 a {
+	margin-left: 20px;
+	border: 0;
+	background: #1ab394;
+	padding: 5px;
+	border-radius: 5px;
+	color: #fff;
+	cursor: pointer;
+	position: relative;
+	z-index: 999;
+}
+input[type=text],input[type=password],select{
+	border:1px solid #ccc;
+}
+.page {
+	text-align: center;
+}
+
+#add-content {
+	position: fixed;
+	top: 70px;
+	width: 400px;
+	height: 400px;
+	background: #1ab394;
+	display: none;
+}
+
+#add-content form {
+	width: 300px;
+	margin: 0 auto;
+}
+
+#add-content form select {
+	width: 200px;
+	float: left;
+	padding-left: 20px;
+}
+
+#add-content form .select label {
+	float: left;
+	color: #fff;
+	width: 100px;
+	text-align: center;
+}
+
+#add-content h2 {
+	text-align: center;
+	line-height: 70px;
+	font-size: 36px;
+	color: #fff;
+}
+
+#sub:before {
+	content: "";
+	display: block;
+	height: 0;
+	overflow: hidden;
+	clear: both;
+}
+
+#sub {
+	width: 100px;
+	display: block;
+	margin: 0 auto;
+	height: 30px;
+	border-radius: 5px;
+	border: 0;
+	background: #fff;
+	color: #1ab394;
+	margin-top: 30px;
+}
+
+.select {
+	line-height: 50px;
+}
+
+.select select {
+	height: 30px;
+	vertical-align: middle;
+	margin-top: 10px;
+}
+
+.select input {
+	height: 30px;
+	width: 200px;
+	padding-left: 20px;
+	vertical-align: middle;
+}
+
+.select:after {
+	content: "";
+	display: block;
+	height: 0;
+	overflow: hidden;
+	clear: both;
+}
+
+.form-group {
+	margin-bottom: 30px;
+}
+.form-group2 {
+	margin-bottom: 15px;
+}
+.form-group:after {
+	content: "";
+	clear: both;
+	display: block;
+	overflow: hidden;
+	height: 0;
+}
+iframe{
+	float: left;
+	overflow: hidden;
+}
+.wrapper .middle-box{
+	max-width: 500px;
+}
+.form-group input{
+	padding: 7px;
+}
+.form-group2 input{
+	padding: 7px;
+}
+.form-group select{
+	padding: 7px;
+}
+.form-group2 select{
+	padding: 7px;
+}
+.form-group label{
+	padding: 7px;
+}
+.nav-box{
+	position: fixed;
+	z-index: 99999;
+	width: 100%;
+	    display: block !important;
+    height: auto !important;
+    padding-bottom: 0;
+    overflow: visible !important;
+    visibility: visible !important;
+}
+.navbar-right{
+	position: absolute;
+	right: 0;
+}
+.menu-box{
+	position: absolute;
+	height: 100%;
+	width: 240px;
+	overflow-x: hidden;
+	overflow-y: scroll;
+}
+body.color{
+	background: #fff !important;
+}
+/*//tree-veiw*/
+.ibox-tools a {
+	margin-left: 20px;
+	border: 0;
+	background: #1ab394;
+	padding: 5px;
+	border-radius: 3px;
+	color: #fff;
+	cursor: pointer;
+	position: relative;
+	z-index: 999;
+}
+ a.del {
+	margin-left: 20px;
+	border: 0;
+	background: red;
+	padding: 5px;
+	border-radius: 3px;
+	color: #fff;
+	cursor: pointer;
+	position: relative;
+	z-index: 999;
+}
+.add-tree{
+   position: fixed;
+   width: 100%;
+   z-index: 999;
+   top: -14%;
+   left: 30%;
+   box-shadow: 0 0 5px #7a7575;
+   background: #fff;
+   padding-top:0 ;
+   display: none;
+}
+input[type=file]{
+	margin-right: 0;
+}
+h1.logo-name{
+	color: #1ab394;
+	font-size: 28px;
+	margin-bottom: 40px;
+}
+.biao-box{
+	position: relative;
+	z-index: 99;
+}
+.biao-box ul li{
+	float: left;
+	list-style: none;
+	border: 1px solid #ccc;
+	padding: 5px 10px;
+	margin-right: 10px;
+}
+
+.biao-box2 .wrapper-content{
+	padding-top: 50px;
+}
+.biao{
+	display: none;
+}
+.serch-box{
+	float: left;
+}
+.serch-box input{
+	width: 50px;
+	height: 30px;
+	margin-right: 10px;
+	text-align: center;
+	border-radius:5px ;
+	border: 1px solid #ccc;
+}
+.serch-box input:first-child+input{
+	margin-left: 10px;
+	
+}
+.serch-box input:last-child{
+	background: #0055AA;
+	color: #fff;
+	font-weight: bold;
+}
+.tian{
+	margin-left: 20px;
+}
+
+
+@media only screen and (max-width:991px ) {
+	.form-group select{
+		width: 174px;
+	}
+	input[type=file]{
+	width: 174px;
+	padding-left: 30px;
+}
+}

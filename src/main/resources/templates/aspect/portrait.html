@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+      xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="context-path" th:content="@{/}"/>
+    <title></title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/font-awesome/css/font-awesome.css}" rel="stylesheet"/>
+    <link th:href="@{/css/animate.css}" rel="stylesheet"/>
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/style/modify.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/style/style.css}"/>
+    <link th:href="@{/css/plugins/footable/footable.core.css}" rel="stylesheet"/>
+    <style type="text/css">
+    	.boxcc{
+    		overflow-x: scroll;
+    	}
+    	.scrolling_outer{
+    		min-width: 1200px;
+    	}
+    		.hh{
+    		cursor: pointer;
+    		position: relative;
+    	}
+    	.hh:hover{
+    	}
+    	.hh:hover .th-box{
+    		display: block;
+    	}
+    	.th-box{
+    		position: absolute;
+    		top: 0;
+    		left: 0;
+    		background: #fff;
+    		display: none;
+    		width: 100%;
+    		height: 100%;
+    	}
+    	.th-box a{
+    		display: inline-block;
+    		float: left;
+    		line-height: 47px;
+    		width: 50%;
+    		text-align: center;
+    	}
+    	.th-box a:first-child:hover{
+    		background: #ccc;
+    	}
+    	.th-box a:last-child:hover{
+    		background: #ccc;
+    	}
+    	#yourTableID2 tr th,#yourTableID2 tr td{
+    		text-align: center;
+    	}
+    	</style>
+    <!--<style>
+    .abutton{
+        background: #1ab394;
+        border-radius: 5px;
+        color: #fff;
+        font-weight: bold;
+    }
+    </style>-->
+</head>
+
+<body class="color">
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <div class="ibox-tools">
+                        <!--<a style="background: #18a689;" onclick="javascript:getTable();" >导出数据</a>-->
+                        <a style="background: #18a689;"
+                           class="fa fa-arrow-left"
+                           href="javascript:history.go(-1);"></a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="boxcc">
+                        <table id="yourTableID2" width="100%" border="0" cellspacing="0" cellpadding="0" >
+                            <thead>
+                            <tr>
+                                <th style="width: 7%;">序号</th>
+                                <th style="width: 20%;">预设周期</th>
+                                <th style="width: 7%;">外温最高温/℃</th>
+                                <th style="width: 7%;">外温最低温/℃</th>
+                                <th style="width: 7%;">外温平均温度/℃</th>
+                                <th style="width: 7%;">所属片区外温/℃</th>
+                                <th style="width: 7%;">机组名称</th>
+                                <th class="h-1 hh" style="width: 7%;">二网供温/℃
+                                    <div class="th-box">
+                                        <a onclick="click_ordes(0,4)">升序</a>
+                                        <a onclick="click_ordes(1,4)">降序</a>
+                                    </div>
+                                </th>
+                                <th class="h-1 hh" style="width: 7%;">二网回温/℃
+                                    <div class="th-box">
+                                        <a onclick="click_ordes(0,5)">升序</a>
+                                        <a onclick="click_ordes(1,5)">降序</a>
+                                    </div>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody id="x">
+                            <tr class="gradeX" th:each="obj,s:${list}">
+                                <td th:text="${s.index+1}"></td>
+                                <td th:text="${obj[0]}"></td>
+                                <td th:text="${#numbers.formatDecimal((obj[1] == null ? '0.00' : obj[1]), 1, 2)}"></td>
+                                <td th:text="${#numbers.formatDecimal((obj[1] == null ? '0.00' : obj[1]), 1, 2)}"></td>
+                                <td th:text="${#numbers.formatDecimal((obj[1] == null ? '0.00' : obj[1]), 1, 2)}"></td>
+                                <td th:text="${#numbers.formatDecimal((obj[1] == null ? '0.00' : obj[1]), 1, 2)}"></td>
+                                <td th:text="${obj[2]}"></td>
+                                <td th:text="${#numbers.formatDecimal((obj[1] == null ? '0.00' : obj[3]), 1, 2)}"></td>
+                                <td th:text="${#numbers.formatDecimal((obj[1] == null ? '0.00' : obj[4]), 1, 2)}"></td>
+                            </tr>
+                            <tr class="gradeY">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td th:text="平均值"></td>
+                                <td id="pj2"></td>
+                                <td id="pj"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/js/jquery-2.1.1.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/plugins/metisMenu/jquery.metisMenu.js}"></script>
+<script th:src="@{/js/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+<script th:src="@{/js/inspinia.js}"></script>
+<script th:src="@{/style/jquery.freezeheader.js}" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" th:src="@{/style/jquery-ui-1.7.2.custom.min.js}"></script>
+<script type="text/javascript" th:src="@{/style/jquery.chromatable.js}"></script>
+<script th:inline="javascript">
+/*<![CDATA[*/
+var path = /*[[${#httpServletRequest.getScheme()
+					+ "://" + #httpServletRequest.getServerName()
+					+ ":" + #httpServletRequest.getServerPort()
+					+ #httpServletRequest.getContextPath()}]]*/;
+
+	$(document).ready(function(){
+		$("#yourTableID2").chromatable({
+			width: "auto",
+			height: "700px",
+			scrolling: "yes"
+		});
+	})
+
+	$(function(){
+    var i = 0;
+    $('.gradeX').each(function(index,e){
+        var k = $(e).find('td:eq(8)').text();
+        i = parseFloat(i)+parseFloat(k);
+    });
+    i = parseFloat(i)/parseFloat($('.gradeX').length);
+    var k = i+"";
+    $('#pj').text(k.substring(0,k.indexOf(".")+3));
+});
+$(function(){
+    var i = 0;
+    $('.gradeX').each(function(index,e){
+        var k = $(e).find('td:eq(7)').text();
+        i = parseFloat(i)+parseFloat(k);
+    });
+    i = parseFloat(i)/parseFloat($('.gradeX').length);
+    var k = i+"";
+    $('#pj2').text(k.substring(0,k.indexOf(".")+3));
+});
+
+	<!--排序-->
+function click_ordes(lx,t){
+    var myArray=new Array();
+    myArray = $('.gradeX');
+    var myAr = $('.gradeY');
+    for(var i = 1;i< myArray.length;i++){
+        for(var j = 0;j< myArray.length-1;j++){
+            var te = $(myArray[j]).find('td').eq(t).text();
+            var te1 = $(myArray[j+1]).find('td').eq(t).text();
+            if(parseFloat(te) < parseFloat(te1)){
+                var d;
+                d = myArray[j];
+                myArray[j] = myArray[j+1];
+                myArray[j+1] = d;
+            }
+        }
+    }
+    var gradeY = $('.gradeY');
+    $('.gradeX').remove();
+    $('.gradeY').remove();
+    if(lx == 1){
+        for(var i = 0;i< myArray.length;i++){
+            $('#x').append(myArray[i]);
+        }
+        $('#x').append(gradeY);
+    }else{
+        for(var i = myArray.length;i>= 0 ;i--){
+            $('#x').append(myArray[i]);
+        }
+        $('#x').append(gradeY);
+    }
+    $('.gradeX').each(function(index,e){
+        $(e).find('td').eq(0).text(index+1);
+    });
+}
+    <!--function getTable()-->
+    <!--{-->
+        <!--var na = $('.na').val();-->
+        <!--//用获取table(通过其id ) 获取指定的行，列-->
+        <!--var mytable = document.getElementById('yourTableID2');-->
+          <!--var rows = mytable.rows.length;-->
+          <!--var colums = mytable.rows[0].cells.length;-->
+        <!--var col = "";-->
+        <!--var col1 = "";-->
+        <!--for(var iii =0;iii<colums-1;iii++)-->
+        <!--{-->
+            <!--col1 += mytable.rows[0].cells[iii].innerHTML+",";-->
+        <!--}-->
+        <!--for(var i = 1 ;i<rows;i++)-->
+        <!--{-->
+            <!--for(var ii =0;ii<colums-1;ii++)-->
+            <!--{-->
+                <!--col += mytable.rows[i].cells[ii].innerHTML+",";-->
+            <!--}-->
+            <!--col += "]";-->
+        <!--}-->
+        <!--$.ajax({-->
+            <!--url:"/aspect/queryCompanysToExcel",    //请求的url地址-->
+            <!--dataType:"text",   //返回格式为String-->
+            <!--async:true,//请求是否异步，默认为异步，这也是ajax重要特性-->
+            <!--data:{"name":na,"title":col1,"data":col},    //参数值-->
+            <!--type:"post",   //请求方式-->
+            <!--beforeSend:function(){-->
+                <!--//请求前的处理-->
+            <!--},-->
+            <!--success:function(req){-->
+                <!--//请求成功时处理-->
+                <!--if(req == "0")-->
+                <!--{-->
+                    <!--alert("文件导出失败，请重新再试");-->
+                <!--}else-->
+                <!--{-->
+                    <!--alert(req+"导出成功")；-->
+                <!--}-->
+            <!--},-->
+            <!--complete:function(){-->
+                <!--//请求完成的处理-->
+            <!--},-->
+            <!--error:function(){-->
+                <!--//请求出错处理-->
+            <!--}-->
+        <!--});-->
+    <!--}-->
+
+    <!--function serch()-->
+    <!--{-->
+        <!--var v = $('#serch').val();-->
+        <!--var mytable = document.getElementById('yourTableID2');-->
+          <!--var rows = mytable.rows.length;-->
+        <!--for(var i = 1 ;i<rows;i++)-->
+        <!--{-->
+            <!--col = mytable.rows[i].cells[1].innerHTML;-->
+            <!--if(v == col)-->
+            <!--{-->
+                <!--mytable.rows[i].style.background='red';-->
+            <!--}-->
+        <!--}-->
+    <!--}-->
+
+/*]]>*/
+</script>
+</body>
+
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+      xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="context-path" th:content="@{/}"/>
+    <title>INSPINIA | Empty Page</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/font-awesome/css/font-awesome.css}" rel="stylesheet"/>
+    <link th:href="@{/css/animate.css}" rel="stylesheet"/>
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/style/modify.css}"/>
+    <style type="text/css">
+    	.hh{
+    		cursor: pointer;
+    		position: relative;
+    	}
+    	.hh:hover{
+    	}
+    	.hh:hover .th-box{
+    		display: block;
+    	}
+    	.th-box{
+    		position: absolute;
+    		top: 0;
+    		left: 0;
+    		background: #fff;
+    		display: none;
+    		width: 100%;
+    		height: 100%;
+    	}
+    	.th-box a{
+    		display: inline-block;
+    		float: left;
+    		line-height: 35px;
+    		width: 50%;
+    		text-align: center;
+    	}
+    	.th-box a:first-child:hover{
+    		background: #ccc;
+    	}
+    	.th-box a:last-child:hover{
+    		background: #ccc;
+    	}
+
+
+
+    </style>
+    <!--<style>
+    .abutton{
+        background: #1ab394;
+        border-radius: 5px;
+        color: #fff;
+        font-weight: bold;
+    }
+    </style>-->
+</head>
+
+<body class="color">
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <div class="ibox-tools">
+                        <a style="background: #18a689;"
+                           class="fa fa-arrow-left"
+                           href="javascript:history.go(-1);"></a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class=" table-responsive">
+                        <table class="table table-striped table-bordered table-hover dataTables-example"
+                               id="table table-striped table-bordered table-hover dataTables-example">
+                            <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th class="h-1 hh">时间
+                                </th>
+                                <th class="h-2 hh">外温最高温度/℃
+                                </th>
+                                <th class="h-2 hh">外温最低温度/℃
+                                </th>
+                                <th class="h-2 hh">外温平均温度/℃
+                                </th>
+                                <th class="h-4 hh">面积/㎡
+                                </th>
+                                <th class="h-4 hh">耗热量/Gj
+                                </th>
+                                <th class="h-4 hh">热指标/Gj/㎡/s
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="gradeX" th:each="obj,s:${list}">
+                                <td th:text="${s.index+1}"></td>
+                                <td th:text="${obj.sj}"></td>
+                                <td th:text="${obj.wd}"></td>
+                                <td th:text="${obj.wd}"></td>
+                                <td th:text="${obj.wd}"></td>
+                                <td th:text="${obj.hrzmj}">
+                                </td>
+                                <td th:text="${#numbers.formatDecimal((obj.hrzrzb == null ? '0' : obj.hrzrdh), 1, 2)}">
+                                </td>
+                                <td th:text="${#numbers.formatDecimal((obj.hrzrzb == null ? '0' : obj.hrzrzb), 1, 2)}">
+                                </td>
+                            </tr>
+                            <tr class="gradeX">
+                                <td colspan="16"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/js/jquery-2.1.1.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/plugins/metisMenu/jquery.metisMenu.js}"></script>
+<script th:src="@{/js/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+<script th:src="@{/js/inspinia.js}"></script>
+<script th:inline="javascript">
+/*<![CDATA[*/
+
+/*]]>*/
+
+
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+      xmlns="http://www.w3.org/1999/xhtml" style="height: 100%">
+
+<head>
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="context-path" th:content="@{/}"/>
+</head>
+<body style="height: 100%; margin: 0">
+<input type="hidden" th:value="${id}" id="query_id"/>
+<div id="container" style="height: 100%"></div>
+<script th:src="@{/js/jquery-2.1.1.js}"></script>
+<script type="text/javascript" th:src="@{/style/js2/echarts-all-3.js}"></script>
+<script type="text/javascript" th:src="@{/style/js2/ecStat.min.js}"></script>
+<script type="text/javascript" th:src="@{/style/js2/dataTool.min.js}"></script>
+<script type="text/javascript" th:src="@{/style/js2/china.js}"></script>
+<script type="text/javascript" th:src="@{/style/js2/world.js}"></script>
+<script type="text/javascript" th:src="@{/style/js2/bmap.min.js}"></script>
+<script th:inline="javascript">
+/*<![CDATA[*/
+var ids = $('#query_id').val();
+var path = /*[[${#httpServletRequest.getScheme()
+					+ "://" + #httpServletRequest.getServerName()
+					+ ":" + #httpServletRequest.getServerPort()
+					+ #httpServletRequest.getContextPath()}]]*/;
+$(function(){
+    //获得后台数据
+    var v;
+    var title_data;
+
+    $.ajax({
+        url: path+"/dltj/getJson",
+        async: false,
+        type: 'post',
+        data:{"id":ids},
+        dataType: 'json',
+        timeout: 1000,
+        cache: false,
+        success: function (req) {
+            v = req.v;
+            <!--title_data = req.title_data;-->
+        },
+        error: erryFunction
+    });
+    function erryFunction() {
+        alert("数据没返回成功！");
+    };
+
+    var dom = document.getElementById("container");
+    var myChart = echarts.init(dom);
+    var option = {
+        title: {
+                text: "电量",
+                subtext: ""
+            },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                    color: '#999'
+                }
+            }
+        },
+        toolbox: {
+            feature: {
+                magicType: {show: false, type: ['line', 'bar']},
+                restore: {show: false},
+                saveAsImage: {show: false}
+            }
+        },
+        legend: {
+            data:['电量']
+        },
+        xAxis: [
+            {
+                type: 'category',
+                <!--,'2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'-->
+                data: ['本日'],
+                axisPointer: {
+                    type: 'shadow'
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: '电量',
+                min: 0,
+                max: 100000,
+                interval: 10000,
+                axisLabel: {
+                    formatter: '{value}'
+                }
+            },
+            {
+                type: 'value',
+                name: '电量',
+                min: 0,
+                max: 100000,
+                show:false,
+                interval: 10000,
+                axisLabel: {
+                    formatter: '{value}'
+                }
+            }
+        ],
+        series: [
+            {
+                name:'电量',
+                type:'bar',
+                data:v
+            }
+            <!--,-->
+            <!--{-->
+                <!--name:title_data[1] == null ? '':title_data[1],-->
+                <!--type:'bar',-->
+                <!--data:hw_a_data-->
+            <!--},-->
+            <!--{-->
+                <!--name:title_data[2] == null ? '':title_data[2],-->
+                <!--type:'bar',-->
+                <!--data:gw_b_data-->
+            <!--},-->
+            <!--{-->
+                <!--name:title_data[3] == null ? '':title_data[3],-->
+                <!--type:'bar',-->
+                <!--data:hw_b_data-->
+            <!--},-->
+            <!--{-->
+                <!--name:title_data[4] == null ? '':title_data[4],-->
+                <!--type:'line',-->
+                <!--yAxisIndex: 1,-->
+                <!--data:pj_a_data-->
+            <!--},-->
+            <!--{-->
+                <!--name:title_data[5] == null ? '':title_data[5],-->
+                <!--type:'line',-->
+                <!--yAxisIndex: 1,-->
+                <!--data:pj_b_data-->
+            <!--}-->
+        ]
+    };
+    myChart.setOption(option);
+
+});
+/*]]>*/
+
+
+
+
+
+</script>
+</body>
+</html>

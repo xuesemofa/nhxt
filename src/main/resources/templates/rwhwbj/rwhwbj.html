@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+      xmlns="http://www.w3.org/1999/xhtml" style="height: 100%">
+
+<head>
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="context-path" th:content="@{/}"/>
+</head>
+<body style="height: 100%; margin: 0">
+<input type="hidden" th:value="${id}" id="query_id"/>
+<div id="container" style="height: 100%"></div>
+<script th:src="@{/js/jquery-2.1.1.js}"></script>
+<script type="text/javascript" th:src="@{/style/js2/echarts-all-3.js}"></script>
+<script type="text/javascript" th:src="@{/style/js2/ecStat.min.js}"></script>
+<script type="text/javascript" th:src="@{/style/js2/dataTool.min.js}"></script>
+<script type="text/javascript" th:src="@{/style/js2/china.js}"></script>
+<script type="text/javascript" th:src="@{/style/js2/world.js}"></script>
+<script type="text/javascript" th:src="@{/style/js2/bmap.min.js}"></script>
+<script th:inline="javascript">
+/*<![CDATA[*/
+var ids = $('#query_id').val();
+var path = /*[[${#httpServletRequest.getScheme()
+					+ "://" + #httpServletRequest.getServerName()
+					+ ":" + #httpServletRequest.getServerPort()
+					+ #httpServletRequest.getContextPath()}]]*/;
+$(function(){
+    //获得后台数据
+    var rwgw;
+    var jzid;
+    var title_data;
+
+    $.ajax({
+        url: path+"/rwhwbj/qurey",
+        async: false,
+        type: 'post',
+        dataType: 'json',
+        timeout: 1000,
+        cache: false,
+        success: function (req) {
+            jzid = req.jzid;
+            rwgw = req.rwgw;
+            <!--title_data = req.title_data;-->
+        },
+        error: erryFunction
+    });
+    function erryFunction() {
+        alert("数据没返回成功！");
+    };
+
+    var dom = document.getElementById("container");
+    var myChart = echarts.init(dom);
+    var option = {
+        title: {
+                text: "二网回温对比图",
+                subtext: ""
+            },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                    color: '#999'
+                }
+            }
+        },
+        toolbox: {
+            feature: {
+                magicType: {show: false, type: ['line', 'bar']},
+                restore: {show: false},
+                saveAsImage: {show: false}
+            }
+        },
+        legend: {
+            data:['摄氏度']
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: jzid,
+                interval: 2,
+                min: 0,
+                max: 15,
+                axisPointer: {
+                    type: 'shadow'
+                },
+                axisLabel: {
+                    interval:0,
+                    rotate:40
+				}
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: '摄氏度',
+                min: 0,
+                max: 100,
+                interval: 10,
+                axisLabel: {
+                    formatter: '{value}℃'
+                }
+            }
+        ],
+        series: [
+            {
+                name:'摄氏度',
+                type:'bar',
+                data:rwgw,
+                itemStyle:{
+                    normal:{
+                        color:'#4ad2ff'
+                    }
+                }
+            }
+            <!--,-->
+            <!--{-->
+                <!--name:title_data[1] == null ? '':title_data[1],-->
+                <!--type:'bar',-->
+                <!--data:hw_a_data-->
+            <!--},-->
+            <!--{-->
+                <!--name:title_data[2] == null ? '':title_data[2],-->
+                <!--type:'bar',-->
+                <!--data:gw_b_data-->
+            <!--},-->
+            <!--{-->
+                <!--name:title_data[3] == null ? '':title_data[3],-->
+                <!--type:'bar',-->
+                <!--data:hw_b_data-->
+            <!--},-->
+            <!--{-->
+                <!--name:title_data[4] == null ? '':title_data[4],-->
+                <!--type:'line',-->
+                <!--yAxisIndex: 1,-->
+                <!--data:pj_a_data-->
+            <!--},-->
+            <!--{-->
+                <!--name:title_data[5] == null ? '':title_data[5],-->
+                <!--type:'line',-->
+                <!--yAxisIndex: 1,-->
+                <!--data:pj_b_data-->
+            <!--}-->
+        ]
+    };
+    myChart.setOption(option);
+
+});
+/*]]>*/
+</script>
+</body>
+</html>

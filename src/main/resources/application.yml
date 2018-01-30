@@ -1,0 +1,68 @@
+﻿#端口
+server: 
+  port: 8089
+  tomcat: 
+    uri-encoding: UTF-8
+spring:
+# 数据源配置
+  datasource: 
+    url: jdbc:mysql://192.168.1.130:3306/consume?useUnicode=true&characterEncoding=utf8&useSSL=false&allowMultiQueries=true
+#    url: jdbc:mysql://192.168.1.252:3306/consume?useUnicode=true&characterEncoding=utf8&useSSL=false&allowMultiQueries=true
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+
+  thymeleaf:
+      prefix: classpath:/templates
+      encoding: UTF-8
+  #缓存
+      cache: false
+#表示所有的访问都经过静态资源路径；
+  mvc:
+    static-path-pattern: /**
+#在这里配置静态资源路径，前面说了这里的配置是覆盖默认配置，
+#所以需要将默认的也加上否则static、public等这些路径将不能被当作静态资源路径，
+#在这个最末尾的file:${web.upload-path}之所有要加file:是因为指定的是一个具体的硬盘路径，
+#其他的使用classpath指的是系统环境变量
+  resources:
+    static-locations: classpath:/static/,classpath:/public/,file:${imgPath}
+
+#    上传文件限制
+  http:
+    multipart:
+      maxFileSize: 100Mb
+      maxRequestSize: 100Mb
+
+# 日志级别
+#debug: true
+info: true
+#error: true
+#输出到log文件
+logging:
+    file: nhxt.log
+    level:
+      org:
+        consume:
+          com: debug
+
+#分页每页默认条数设置
+page:
+  pageSize: 15
+  
+#pagehelper分页插件配置
+pagehelper:
+    helperDialect: mysql
+    reasonable: true
+    supportMethodsArguments: true
+    params:
+        count:
+            countSql
+#全局上传下载读取img路径设置
+imgPath: D:\\work\\
+#全局图片格式-多个用,(英文)隔开
+imgType: jpg,png
+
+#全局上传下载读取文件路径设置
+filesPath: D:\\file\\
+#全局文件格式-多个用,(英文)隔开
+filesType: xlsx,docx

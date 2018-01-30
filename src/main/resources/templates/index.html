@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+      xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="context-path" th:content="@{/}"/>
+    <title>能耗系统</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/font-awesome/css/font-awesome.css}" rel="stylesheet"/>
+    <link th:href="@{/css/animate.css}" rel="stylesheet"/>
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+    <script language="JavaScript">
+        if (window != top)
+        top.location.href = location.href;
+
+
+    </script>
+</head>
+
+<body class="gray-bg">
+
+<div class="middle-box text-center loginscreen animated fadeInDown" style="margin-top: 150px;">
+    <div>
+        <div>
+
+            <h1 class="logo-name">能耗系统</h1>
+
+        </div>
+        <form class="m-t" role="form" th:action="@{/loginIn}" method="post"
+              onsubmit="javascript:$('input[type=submit]').css('disabled','disabled');">
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="请输入用户名" name="username"
+                       value="weihuzu12345"/>
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" placeholder="请输入密码" name="password"
+                       value="weihuzu12345"/>
+            </div>
+            <div class="form-group" style="display:none;">
+                <img alt="验证码" onclick="this.src='/defaultKaptcha?d='+new Date()*1" th:src="@{/defaultKaptcha}"/>
+                <input type="text" name="vrifyCode"/>
+            </div>
+            <div class="form-group">
+                <span th:text="${errortext}" style="color:red;"></span>
+            </div>
+            <button type="submit" class="btn btn-primary block full-width m-b">登录</button>
+        </form>
+        <p class="m-t"><strong></strong> &copy; 2017</p>
+    </div>
+</div>
+
+<!-- Mainly scripts -->
+<script th:src="@{/js/jquery-2.1.1.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+
+</body>
+
+</html>

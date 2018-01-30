@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+      xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="context-path" th:content="@{/}"/>
+    <title></title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/font-awesome/css/font-awesome.css}" rel="stylesheet"/>
+    <link th:href="@{/css/animate.css}" rel="stylesheet"/>
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/style/modify.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/style/style.css}"/>
+    <link th:href="@{/css/plugins/footable/footable.core.css}" rel="stylesheet"/>
+    <style type="text/css">
+    	.boxcc{
+    		overflow-x: scroll;
+    	}
+    	.scrolling_outer{
+    		min-width: 1200px;
+    	}
+    		.hh{
+    		cursor: pointer;
+    		position: relative;
+    		z-index:99;
+    	}
+    	.hh:hover{
+    	}
+    	.hh:hover .th-box{
+    		display: block;
+    	}
+    	.th-box{
+    		position: absolute;
+    		top: 0;
+    		left: 0;
+    		background: #fff;
+    		display: none;
+    		width: 100%;
+    		height: 100%;
+    	}
+    	.th-box a{
+    		display: inline-block;
+    		float: left;
+    		line-height: 47px;
+    		width: 50%;
+    		text-align: center;
+    	}
+    	.th-box a:first-child:hover{
+    		background: #ccc;
+    	}
+    	.th-box a:last-child:hover{
+    		background: #ccc;
+    	}
+    	#yourTableID2 tr th,#yourTableID2 tr td{
+    		text-align: center;
+    	}
+    	</style>
+    <!--<style>
+    .abutton{
+        background: #1ab394;
+        border-radius: 5px;
+        color: #fff;
+        font-weight: bold;
+    }
+    </style>-->
+</head>
+
+<body class="color">
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                <h5 th:text="${model.names}+'数据'"></h5>
+                    
+                    <input type="hidden" th:value="${model.names}" class="na"/>
+                    <div class="cur" style="float:right">
+                        <a th:href="@{/exchange/init/0}"  style="float:right;background: #18a689;">返回</a>
+                    </div>
+                    <div class="cur" style="float:right">
+                        <a style="background: #18a689;" onclick="javascript:getTable();" >导出数据</a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                <div class="cur" style="margin-bottom:15px;">
+                    <input type="text" id="serch" style="padding:5px;border:1px solid #ccc;"/>
+                        <a style="background: #18a689;" onclick="javascript:serch();" >搜索机组</a>
+                    </div>
+                    <div class="boxcc">
+                        <table id="yourTableID2" width="100%" border="0" cellspacing="0" cellpadding="0" >
+                            <thead>
+                            <tr class="ww">
+                                <th>序号</th>
+                                <th class="h-1 hh">机组名称
+                                    <div class="th-box">
+                                        <a th:href="@{/exchange/queryByCompany(id=${model.uuid},zd='CONVERT(c.`names` USING gbk)',px='asc')}">↑</a>
+                                        <a th:href="@{/exchange/queryByCompany(id=${model.uuid},zd='CONVERT(c.`names` USING gbk)',px='desc')}">↓</a>
+                                    </div>
+                                </th>
+                                <th class="h-1 hh">所属分公司
+                                    <div class="th-box">
+                                        <a th:href="@{/exchange/queryCompanys(zd='s.ordes',px='asc')}">↑</a>
+                                        <a th:href="@{/exchange/queryCompanys(zd='s.ordes',px='desc')}">↓</a>
+                                    </div></th>
+                                <th class="h-1 hh">建筑类型
+                                    <div class="th-box">
+                                        <a th:href="@{/exchange/queryByCompany(id=${model.uuid},zd='CONVERT(b.names USING gbk)',px='asc')}">↑</a>
+                                        <a th:href="@{/exchange/queryByCompany(id=${model.uuid},zd='CONVERT(b.names USING gbk)',px='desc')}">↓</a>
+                                    </div>
+                                </th>
+                                <th class="h-1 hh">
+                                    <span style="display:block;width:46px;margin:0 auto;">通讯状态</span>
+                                    <div class="th-box">
+                                        <a th:href="@{/exchange/queryByCompany(id=${model.uuid},zd='d.bl9',px='asc')}">↑</a>
+                                        <a th:href="@{/exchange/queryByCompany(id=${model.uuid},zd='d.bl9',px='desc')}">↓</a>
+                                    </div>
+                                </th>
+                                <th class="h-2 hh">一网供水温度/℃
+                                    <div class="th-box">
+                                        <a th:href="@{/exchange/queryByCompany(id=${model.uuid},zd='d.T11+0',px='asc')}">↑</a>
+                                        <a th:href="@{/exchange/queryByCompany(id=${model.uuid},zd='d.T11+0',px='desc')}">↓</a>
+                                    </div>
+                                </th>
+                                <th class="h-3 hh">一网回水温度/℃
+                                    <div class="th-box">
+                                        <a th:href="@{/exchange/queryByCompany(id=${model.uuid},zd='d.T12+0',px='asc')}">↑</a>
+                                        <a th:href="@{/exchange/queryByCompany(id=${model.uuid},zd='d.T12+0',px='desc')}">↓</a>
+                                    </div>
+                                </th>
+                                <th class="h-4 hh">一网供水压力/Mpa
+                                    <div class="th-box">
+                                        <a th:href="@{/exchange/queryByCompany(id=${model.uuid},zd='d.P11+0',px='asc')}">↑</a>
+                                        <a th:href="@{/exchange/queryByCompany(id=${model.uuid},zd='d.P11+0',px='desc')}">↓</a>
+                                    </div>
+                                </th>
+                                <th class="h-5 hh">一网回水压力/Mpa
+                                    <div class="th-box">
+                                        <a th:href="@{/exchange/queryByCompany(id=${model.uuid},zd='d.P12+0',px='asc')}">↑</a>
+                                        <a th:href="@{/exchange/queryByCompany(id=${model.uuid},zd='d.P12+0',px='desc')}">↓</a>
+                                    </div>
+                                </th>
+                                <th class="h-6 hh">二网供水温度/℃
+                                    <div class="th-box">
+                                        <a th:href="@{/exchange/queryByCompany(id=${model.uuid},zd='d.T21+0',px='asc')}">↑</a>
+                                        <a th:href="@{/exchange/queryByCompany(id=${model.uuid},zd='d.T21+0',px='desc')}">↓</a>
+                                    </div>
+                                </th>
+                                <th class="h-7 hh">二网回水温度/℃
+                                    <div class="th-box">
+                                        <a th:href="@{/exchange/queryByCompany(id=${model.uuid},zd='d.T22+0',px='asc')}">↑</a>
+                                        <a th:href="@{/exchange/queryByCompany(id=${model.uuid},zd='d.T22+0',px='desc')}">↓</a>
+                                    </div>
+                                </th>
+                                <th class="h-8 hh">二网供水压力/Mpa
+                                    <div class="th-box">
+                                        <a th:href="@{/exchange/queryByCompany(id=${model.uuid},zd='d.P21+0',px='asc')}">↑</a>
+                                        <a th:href="@{/exchange/queryByCompany(id=${model.uuid},zd='d.P21+0',px='desc')}">↓</a>
+                                    </div>
+                                </th>
+                                <th class="h-9 hh">二网回水压力/Mpa
+                                    <div class="th-box">
+                                        <a th:href="@{/exchange/queryByCompany(id=${model.uuid},zd='d.P22+0',px='asc')}">↑</a>
+                                        <a th:href="@{/exchange/queryByCompany(id=${model.uuid},zd='d.P22+0',px='desc')}">↓</a>
+                                    </div>
+                                </th>
+                                <th class="h-10 hh">1#循环泵频率反馈/Hz
+                                    <div class="th-box">
+                                        <a th:href="@{/exchange/queryByCompany(id=${model.uuid},zd='d.xf_bac1+0',px='asc')}">↑</a>
+                                        <a th:href="@{/exchange/queryByCompany(id=${model.uuid},zd='d.xf_bac1+0',px='desc')}">↓</a>
+                                    </div>
+                                </th>
+                                <th class="h-11 hh">1#循环泵电流反馈/A
+                                    <div class="th-box">
+                                        <a th:href="@{/exchange/queryByCompany(id=${model.uuid},zd='d.xI_bac1+0',px='asc')}">↑</a>
+                                        <a th:href="@{/exchange/queryByCompany(id=${model.uuid},zd='d.xI_bac1+0',px='desc')}">↓</a>
+                                    </div>
+                                </th>
+                                <th class="h-12 hh">2#循环泵频率反馈/Hz
+                                    <div class="th-box">
+                                        <a th:href="@{/exchange/queryByCompany(id=${model.uuid},zd='d.xf_bac2+0',px='asc')}">↑</a>
+                                        <a th:href="@{/exchange/queryByCompany(id=${model.uuid},zd='d.xf_bac2+0',px='desc')}">↓</a>
+                                    </div>
+                                </th>
+                                <th class="h-13 hh">2#循环泵电流反馈/A
+                                    <div class="th-box">
+                                        <a th:href="@{/exchange/queryByCompany(id=${model.uuid},zd='d.xI_bac2+0',px='asc')}">↑</a>
+                                        <a th:href="@{/exchange/queryByCompany(id=${model.uuid},zd='d.xI_bac2+0',px='desc')}">↓</a>
+                                    </div>
+                                </th>
+                                <th class="h-14 hh">1#补水泵频率反馈/Hz
+                                    <div class="th-box">
+                                        <a th:href="@{/exchange/queryByCompany(id=${model.uuid},zd='d.bf_bac1+0',px='asc')}">↑</a>
+                                        <a th:href="@{/exchange/queryByCompany(id=${model.uuid},zd='d.bf_bac1+0',px='desc')}">↓</a>
+                                    </div>
+                                </th>
+                                <th>采集时间</th>
+                                <th style="width:70px;">操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="grid" id ="gradex" th:each="obj,s:${list}">
+                                <td th:text="${s.index+1}"></td>
+                                <td th:text="${obj.jzid}">机组名称</td>
+                                <td th:text="${obj.bl10}"></td>
+                                <td th:text="${obj.bl1}">机组名称</td>
+                                <td th:if="${obj.bl9}==1" th:text="正常"></td>
+                                <td th:if="${obj.bl9}==0" th:text="异常"></td>
+                                <td th:text="${#numbers.formatDecimal((obj.T11 == null ? '0.00' : obj.T11), 1, 2)}"></td>
+                                <td th:text="${#numbers.formatDecimal((obj.T12 == null ? '0.00' : obj.T12), 1, 2)}"></td>
+                                <td th:text="${#numbers.formatDecimal((obj.P11 == null ? '0.00' : obj.P11), 1, 2)}"></td>
+                                <td th:text="${#numbers.formatDecimal((obj.P12 == null ? '0.00' : obj.P12), 1, 2)}"></td>
+                                <td th:text="${#numbers.formatDecimal((obj.T21 == null ? '0.00' : obj.T21), 1, 2)}"></td>
+                                <td th:text="${#numbers.formatDecimal((obj.T22 == null ? '0.00' : obj.T22), 1, 2)}"></td>
+                                <td th:text="${#numbers.formatDecimal((obj.P21 == null ? '0.00' : obj.P21), 1, 2)}"></td>
+                                <td th:text="${#numbers.formatDecimal((obj.P22 == null ? '0.00' : obj.P22), 1, 2)}"></td>
+                                <td th:text="${#numbers.formatDecimal((obj.xf_bac1 == null ? '0.00' : obj.xf_bac1), 1, 2)}"></td>
+                                <td th:text="${#numbers.formatDecimal((obj.xI_bac1 == null ? '0.00' : obj.xI_bac1), 1, 2)}"></td>
+                                <td th:text="${#numbers.formatDecimal((obj.xf_bac2 == null ? '0.00' : obj.xf_bac2), 1, 2)}"></td>
+                                <td th:text="${#numbers.formatDecimal((obj.xI_bac2 == null ? '0.00' : obj.xI_bac2), 1, 2)}"></td>
+                                <td th:text="${#numbers.formatDecimal((obj.bf_bac1 == null ? '0.00' : obj.bf_bac1), 1, 2)}"></td>
+                                <td th:text="${#dates.format(obj.dates,'yyyy-MM-dd HH:mm:ss')}"></td>
+                                <td>
+                                    <div class="cur">
+                                        <a style="background: #18a689;" th:href="@{/exchange/queryOne(jzname=${obj.jzid})}"  id="add">查看</a>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/js/jquery-2.1.1.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/plugins/metisMenu/jquery.metisMenu.js}"></script>
+<script th:src="@{/js/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+<script th:src="@{/js/inspinia.js}"></script>
+<script th:src="@{/style/jquery.freezeheader.js}" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" th:src="@{/style/jquery-ui-1.7.2.custom.min.js}"></script>
+<script type="text/javascript" th:src="@{/style/jquery.chromatable.js}"></script>
+<script th:inline="javascript">
+/*<![CDATA[*/
+var path = /*[[${#httpServletRequest.getScheme()
+					+ "://" + #httpServletRequest.getServerName()
+					+ ":" + #httpServletRequest.getServerPort()
+					+ #httpServletRequest.getContextPath()}]]*/;
+
+	$(document).ready(function(){
+		$("#yourTableID2").chromatable({
+			width: "auto",
+			height: "700px",
+			scrolling: "yes"
+		});
+	})
+    function getTable()
+    {
+        var na = $('.na').val();
+        //用获取table(通过其id ) 获取指定的行，列
+        var mytable = document.getElementById('yourTableID2');
+          var rows = mytable.rows.length;
+          var colums = mytable.rows[0].cells.length;
+        var col = "";
+        for(var i = 1 ;i<rows;i++)
+        {
+            for(var ii =0;ii<colums-1;ii++)
+            {
+                col += mytable.rows[i].cells[ii].innerHTML+",";
+            }
+            col += "]";
+        }
+        $.ajax({
+            url:"/exchange/queryCompanysToExcel2",    //请求的url地址
+            dataType:"text",   //返回格式为String
+            async:true,//请求是否异步，默认为异步，这也是ajax重要特性
+            data:{"table":col,"na":na},    //参数值
+            type:"post",   //请求方式
+            beforeSend:function(){
+                //请求前的处理
+            },
+            success:function(req){
+                //请求成功时处理
+                    window.location.href = path+"/exchange/queryCompanysToExcel3?fileName="+req;
+            },
+            complete:function(){
+                //请求完成的处理
+            },
+            error:function(){
+                //请求出错处理
+            }
+        });
+    }
+
+    function serch()
+    {
+        var v = $('#serch').val();
+        var mytable = document.getElementById('yourTableID2');
+          var rows = mytable.rows.length;
+        for(var i = 1 ;i<rows;i++)
+        {
+            col = mytable.rows[i].cells[1].innerHTML;
+            if(v == col)
+            {
+                mytable.rows[i].style.background='red';
+            }
+        }
+    }
+
+/*]]>*/
+</script>
+</body>
+
+</html>

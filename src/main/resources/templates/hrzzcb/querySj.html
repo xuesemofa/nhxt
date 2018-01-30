@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+      xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="context-path" th:content="@{/}"/>
+    <title>INSPINIA | Empty Page</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/font-awesome/css/font-awesome.css}" rel="stylesheet"/>
+    <link th:href="@{/css/animate.css}" rel="stylesheet"/>
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/style/modify.css}"/>
+    <link th:href="@{/css/plugins/jsTree/style.min.css/}" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/style/modify.css}" />
+    <link th:href="@{/css/plugins/c3/c3.min.css}" rel="stylesheet"/>
+    <style type="text/css">
+    	.hh{
+    		cursor: pointer;
+    		position: relative;
+    	}
+    	.hh:hover{
+    	}
+    	.hh:hover .th-box{
+    		display: block;
+    	}
+    	.th-box{
+    		position: absolute;
+    		top: 0;
+    		left: 0;
+    		background: #fff;
+    		display: none;
+    		width: 100%;
+    		height: 100%;
+    	}
+    	.th-box a{
+    		display: inline-block;
+    		float: left;
+    		line-height: 35px;
+    		width: 50%;
+    		text-align: center;
+    	}
+    	.th-box a:first-child:hover{
+    		background: #ccc;
+    	}
+    	.th-box a:last-child:hover{
+    		background: #ccc;
+    	}
+    </style>
+</head>
+
+<body class="color">
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <div class="ibox-tools">
+                    </div>
+                    									<div class="ibox-tools">
+                               		 		<a style="background: #18a689;"
+                                   				class="fa fa-arrow-left"
+                                   				href="javascript:history.go(-1);"></a>
+                            		</div>
+                </div>
+                <div class="ibox-content">
+                    <div class=" table-responsive">
+                        <table class="table table-striped table-bordered table-hover dataTables-example"
+                               id="table table-striped table-bordered table-hover dataTables-example">
+                            <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th class="h-1 hh">时间
+                                </th>
+                                <th class="h-2 hh">外温最高温度
+                                </th>
+                                <th class="h-2 hh">外温最低温度
+                                </th>
+                                <th class="h-2 hh">外温平均温度
+                                </th>
+                                <th class="h-3 hh">站点名称
+                                </th>
+                                <th class="h-3 hh">建筑物类型
+                                </th>
+                                <th class="h-4 hh">站点面积
+                                </th>
+                                <th class="h-4 hh">耗热量
+                                    <div class="th-box">
+                                        <a onclick="click_ordes(0,8)">升序</a>
+                                        <a onclick="click_ordes(1,8)">降序</a>
+                                    </div>
+                                </th>
+                                <th class="h-4 hh">热成本
+                                    <div class="th-box">
+                                        <a onclick="click_ordes(0,9)">升序</a>
+                                        <a onclick="click_ordes(1,9)">降序</a>
+                                    </div>
+                                </th>
+
+                                <th class="h-4 hh">耗水量
+                                    <div class="th-box">
+                                        <a onclick="click_ordes(0,10)">升序</a>
+                                        <a onclick="click_ordes(1,10)">降序</a>
+                                    </div>
+                                </th>
+                                <th class="h-4 hh">水成本
+                                    <div class="th-box">
+                                        <a onclick="click_ordes(0,11)">升序</a>
+                                        <a onclick="click_ordes(1,11)">降序</a>
+                                    </div>
+                                </th>
+
+                                <th class="h-4 hh">耗电量
+                                    <div class="th-box">
+                                        <a onclick="click_ordes(0,12)">升序</a>
+                                        <a onclick="click_ordes(1,12)">降序</a>
+                                    </div>
+                                </th>
+                                <th class="h-4 hh">电成本
+                                    <div class="th-box">
+                                        <a onclick="click_ordes(0,13)">升序</a>
+                                        <a onclick="click_ordes(1,13)">降序</a>
+                                    </div>
+                                </th>
+                                <th class="h-4 hh">总成本
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody id="x">
+                            <tr class="gradeX" th:each="obj,s:${list}">
+                                <td th:text="${s.index+1}"></td>
+                                <td th:text="${obj[0]}"></td>
+                                <td th:text="${obj[9]}"></td>
+                                <td th:text="${obj[9]}"></td>
+                                <td th:text="${obj[9]}"></td>
+                                <td th:text="${obj[1]}"></td>
+                                <td></td>
+                                <td th:text="${obj[2]}"></td>
+                                <td th:text="${obj[3]}"></td>
+                                <td th:text="${obj[4]}"></td>
+                                <td th:text="${obj[5]}"></td>
+                                <td th:text="${obj[6]}"></td>
+                                <td th:text="${obj[7]}"></td>
+                                <td th:text="${obj[8]}"></td>
+                                <td th:text="${#numbers.formatDecimal(obj[4],1,2)}+${#numbers.formatDecimal(obj[6],1,2)}
+                                +${#numbers.formatDecimal(obj[8],1,2)}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>热成本</h5>
+                </div>
+                <div class="ibox-content">
+                    <div>
+                        <div id="pier"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>水成本</h5>
+                </div>
+                <div class="ibox-content">
+                    <div>
+                        <div id="pies"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>电成本</h5>
+                </div>
+                <div class="ibox-content">
+                    <div>
+                        <div id="pied"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5> 总成本</h5>
+                </div>
+                <div class="ibox-content">
+                    <div>
+                        <div id="piez"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/js/jquery-2.1.1.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/plugins/metisMenu/jquery.metisMenu.js}"></script>
+<script th:src="@{/js/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+<script th:src="@{/js/inspinia.js}"></script>
+<script th:src="@{/js/plugins/jsTree/jstree.min.js}"></script>
+<script th:src="@{/style/js/js.js}" type="text/javascript" charset="utf-8"></script>
+<script th:src="@{/js/plugins/pace/pace.min.js}"></script>
+<script th:src="@{/js/plugins/d3/d3.min.js}"></script>
+<script th:src="@{/js/plugins/c3/c3.min.js}"></script>
+<script type="text/javascript" th:src="@{/style/js2/echarts-all-3.js}"></script>
+<script type="text/javascript" th:src="@{/style/js2/ecStat.min.js}"></script>
+<script type="text/javascript" th:src="@{/style/js2/dataTool.min.js}"></script>
+<script type="text/javascript" th:src="@{/style/js2/china.js}"></script>
+<script type="text/javascript" th:src="@{/style/js2/world.js}"></script>
+<script type="text/javascript" th:src="@{/style/js2/bmap.min.js}"></script>
+<script th:inline="javascript">
+/*<![CDATA[*/
+<!--排序-->
+function click_ordes(lx,t){
+    var myArray=new Array();
+    myArray = $('.gradeX');
+    for(var i = 1;i< myArray.length;i++){
+        for(var j = 0;j< myArray.length-1;j++){
+            var te = $(myArray[j]).find('td').eq(t).text();
+            var te1 = $(myArray[j+1]).find('td').eq(t).text();
+            if(parseFloat(te) < parseFloat(te1)){
+                var d;
+                d = myArray[j];
+                myArray[j] = myArray[j+1];
+                myArray[j+1] = d;
+            }
+        }
+    }
+    var gradeY = $('.gradeY');
+    $('.gradeX').remove();
+    $('.gradeY').remove();
+    if(lx == 1){
+        for(var i = 0;i< myArray.length;i++){
+            $('#x').append(myArray[i]);
+        }
+        $('#x').append(gradeY);
+    }else{
+        for(var i = myArray.length;i>= 0 ;i--){
+            $('#x').append(myArray[i]);
+        }
+        $('#x').append(gradeY);
+    }
+    $('.gradeX').each(function(index,e){
+        $(e).find('td').eq(0).text(index+1);
+    });
+}
+
+$(document).ready(function () {
+            var list = /*[[${list}]]*/;
+            var list2 = [];
+            var list3 = [];
+            var list4 = [];
+            var list6 = [];
+            $(list).each(function(index,el)
+            {
+                var l = el[4]*1 + el[6]*1 + el[8]*1;
+                if(index < list.length-1)
+                {
+                    list2.push([el[0],el[4]],);
+                    list3.push([el[0],el[6]],);
+                    list4.push([el[0],el[8]],);
+                    list6.push([el[0],l],);
+                }else{
+                    list2.push([el[0],el[4]]);
+                    list3.push([el[0],el[6]]);
+                    list4.push([el[0],el[8]]);
+                    list6.push([el[0],l]);
+                }
+            });
+            c3.generate({
+                bindto: '#pier',
+                data:{
+                    columns: list2,
+                    type : 'pie'
+                }
+            });
+
+            c3.generate({
+                bindto: '#pies',
+                data:{
+                    columns: list3,
+                    type : 'pie'
+                }
+            });
+
+            c3.generate({
+                bindto: '#pied',
+                data:{
+                    columns: list4,
+                    type : 'pie'
+                }
+            });
+
+            c3.generate({
+                bindto: '#piez',
+                data:{
+                    columns: list6,
+                    type : 'pie'
+                }
+            });
+        });
+/*]]>*/
+</script>
+</body>
+
+</html>

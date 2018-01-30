@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://shiro.apache.org/tags"
+      lang="en"
+      xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="context-path" th:content="@{/}"/>
+    <title>能耗</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/font-awesome/css/font-awesome.css}" rel="stylesheet"/>
+    <link th:href="@{/css/plugins/iCheck/custom.css}" rel="stylesheet"/>
+    <link th:href="@{/css/animate.css}" rel="stylesheet"/>
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+    <link th:href="@{/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css}" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/style/modify.css}"/>
+    <script language="JavaScript">
+        if (window != top)
+        top.location.href = location.href;
+
+    </script>
+</head>
+
+<body style="overflow-y: hidden;">
+
+<div id="wrapper">
+    <!--//导航开始-->
+    <div class="menu-box">
+        <nav class="navbar-default navbar-static-side" role="navigation">
+            <div class="sidebar-collapse">
+                <ul class="nav metismenu" id="side-menu">
+                    <li class="nav-header">
+                        <div class="dropdown profile-element">
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="full_height.html#">
+                            <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold"
+                                                                                     th:utext="${session.user.username}">管理员</strong>
+                             </span> <span class="text-muted text-xs block">菜单<b class="caret"></b></span> </span> </a>
+                            <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                                <li><a th:href="@{'/user/'+${session.user.uuid}}" target="right">个人资料</a></li>
+                            </ul>
+                        </div>
+                        <div class="logo-element">
+                            NH+
+                        </div>
+                    </li>
+                    <shiro:hasRole name="admin">
+                        <li>
+                            <a th:href="@{/user/admins}" target="right">添加默认管理员</a>
+                        </li>
+                        <li>
+                            <a th:href="@{/jurisdiction/qxcsh}" target="right">权限初始化</a>
+                        </li>
+                        <li>
+                            <a th:href="@{/jurisdiction/init/0}" target="right">权限维护</a>
+                        </li>
+                    </shiro:hasRole>
+
+                    <shiro:hasRole name="admins">
+                        <li>
+                            <a th:href="@{/structure/init}" target="right">组织机构</a>
+                        </li>
+                        <li>
+                            <a th:href="@{/register/toRegister}" target="right">添加账户</a>
+                        </li>
+                        <li>
+                            <a th:href="@{/userJurisdiction/init}" target="right">人员权限关联</a>
+                        </li>
+                    </shiro:hasRole>
+
+                    <shiro:hasRole name="user">
+                        <shiro:hasRole name="换热站运行工况">
+                            <li>
+                                <a>
+                                    <i class="fa fa-sitemap"></i>
+                                    <span class="nav-label">换热站运行工况</span>
+                                    <span class="fa arrow"></span>
+                                </a>
+                                <ul class="nav nav-second-level collapse">
+                                    <li>
+                                        <shiro:hasPermission name="hrz:gk:jzsjlb">
+                                    <li>
+                                        <a th:href="@{/exchange/init/0}" target="right">
+                                            <i class="fa  fa-line-chart"></i>
+                                            <span class="nav-label">机组数据列表</span>
+                                        </a>
+                                    </li>
+                                    </shiro:hasPermission>
+                                    <shiro:hasPermission name="hrz:gk:jzzxdb">
+                                        <li>
+                                            <a th:href="@{/aspect/init}" target="right">
+                                                <i class="fa  fa-line-chart"></i>
+                                                <span class="nav-label">机组纵向对比</span>
+                                            </a>
+                                        </li>
+                                    </shiro:hasPermission>
+                                    <shiro:hasPermission name="hrz:gk:jzhxdb">
+                                        <li>
+                                            <a th:href="@{/aspect/init2}" target="right">
+                                                <i class="fa  fa-line-chart"></i>
+                                                <span class="nav-label">机组横向对比</span>
+                                            </a>
+                                        </li>
+                                    </shiro:hasPermission>
+                                    </li>
+                                </ul>
+                            </li>
+                        </shiro:hasRole>
+                        <li>
+                            <a><i class="fa fa-steam"></i> <span
+                                    class="nav-label">换热站能耗分析</span><span
+                                    class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level collapse">
+                                <li>
+                                    <a><i class="fa fa-sun-o"></i> <span
+                                            class="nav-label">热耗分析</span><span
+                                            class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level">
+                                        <li>
+                                            <a th:href="@{/hrzrl/init/0}" target="right"><i class="fa fa-sun-o"></i>
+                                                <span
+                                                        class="nav-label">站点当前热耗</span> </a>
+                                            <!-- <a th:href="@{/hrzrl/init1/0}" target="right"><i class="fa fa-sun-o"></i> <span
+                                                    class="nav-label">站点当前热耗</span> </a> -->
+
+                                            <a th:href="@{/hrzrl/queryRdh/0}" target="right"><i
+                                                    class="fa fa-table"></i> <span
+                                                    class="nav-label">单机组日耗显示</span> </a>
+                                            <a th:href="@{/hrzrl/queryRdh2/0}" target="right"><i
+                                                    class="fa fa-table"></i> <span
+                                                    class="nav-label">单站点日耗显示</span> </a>
+                                            <a th:href="@{/hrzrl/queryRdh2/0}" target="right"><i
+                                                    class="fa fa-sort-amount-desc"></i> <span
+                                                    class="nav-label">各机组日耗排名</span> </a>
+                                            <a th:href="@{/hrzrl/queryRdh2/0}" target="right"><i
+                                                    class="fa fa-sort-amount-desc"></i> <span
+                                                    class="nav-label">各站点日耗排名</span> </a>
+                                            <a th:href="@{/hrzrl/zxdbIndex/0}" target="right"><i
+                                                    class="fa  fa-line-chart"></i> <span
+                                                    class="nav-label">机组纵向对比</span></a>
+                                            <a th:href="@{/hrzrl/hxdbIndex(pageNow=0)}" target="right"><i
+                                                    class="fa  fa-line-chart"></i> <span
+                                                    class="nav-label">机组横向对比</span></a>
+                                            <a th:href="@{/hrzrl/zxdbIndex2/0}" target="right"><i
+                                                    class="fa  fa-line-chart"></i> <span
+                                                    class="nav-label">站点纵向对比</span></a>
+                                            <a th:href="@{/hrzrl/hxdbIndex2/0}" target="right"><i
+                                                    class="fa  fa-line-chart"></i> <span
+                                                    class="nav-label">站点横向对比</span></a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a><i class="fa fa-tint"></i> <span
+                                            class="nav-label">水耗分析</span><span
+                                            class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level">
+                                        <li>
+                                            <a th:href="@{/hrzsl/init/0}" target="right"><i class="fa fa-tint"></i>
+                                                <span
+                                                        class="nav-label">站点当前水耗</span> </a>
+                                        </li>
+                                        <li>
+                                            <a th:href="@{/hrzsl/inithrz/0}" target="right"><i
+                                                    class="fa fa-table"></i> <span
+                                                    class="nav-label">单站点日耗显示</span> </a>
+                                        </li>
+                                        <li>
+                                            <a th:href="@{/hrzsl/init/0}" target="right"><i class="fa fa-sort-amount-desc"></i>
+                                                <span
+                                                        class="nav-label">各站点日耗排名</span> </a>
+                                        </li>
+                                        <li>
+                                            <a th:href="@{/hrzsl/init1}" target="right"><i class="fa  fa-line-chart"></i>
+                                                <span
+                                                        class="nav-label">站点纵向对比</span> </a>
+                                        </li>
+                                        <li>
+                                            <a th:href="@{/hrzsl/init2}" target="right"><i class="fa  fa-line-chart"></i>
+                                                <span
+                                                        class="nav-label">站点横向对比</span> </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a><i class="fa fa-bolt"></i> <span
+                                            class="nav-label">电耗分析</span><span
+                                            class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level">
+                                        <li>
+                                            <a th:href="@{/hrzdl/init/0}" target="right"><i class="fa fa-bolt"></i>
+                                                <span
+                                                        class="nav-label">站点当前电耗</span> </a>
+                                        </li>
+                                        <li>
+                                            <a th:href="@{/hrzdl/inithrz/0}" target="right"><i
+                                                    class="fa fa-table"></i> <span
+                                                    class="nav-label">单站点日耗显示</span> </a>
+                                        </li>
+                                        <li>
+                                            <a th:href="@{/hrzdl/inithrz/0}" target="right"><i
+                                                    class="fa fa-sort-amount-desc"></i> <span
+                                                    class="nav-label">各站点日耗排名</span> </a>
+                                        </li>
+                                        <li>
+                                            <a th:href="@{/hrzdl/init1}" target="right"><i class="fa  fa-line-chart"></i>
+                                                <span
+                                                        class="nav-label">站点纵向对比</span> </a>
+                                        </li>
+                                        <li>
+                                            <a th:href="@{/hrzdl/init2}" target="right"><i class="fa  fa-line-chart"></i>
+                                                <span
+                                                        class="nav-label">站点横向对比</span> </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a><i class="fa fa-dollar"></i> <span
+                                    class="nav-label">换热站成本分析</span><span
+                                    class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level collapse">
+                                <li>
+                                    <a><i class="fa fa-sun-o"></i> <span
+                                            class="nav-label">热耗成本</span><span
+                                            class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level">
+                                        <li>
+                                            <a th:href="@{/hrzcbfx/init}" target="right"><i
+                                                    class="fa fa-dollar"></i> <span
+                                                    class="nav-label">机组当前成本</span> </a>
+                                            <a th:href="@{/hrzcbfx/init2}" target="right"><i
+                                                    class="fa fa-dollar"></i> <span
+                                                    class="nav-label">站点当前成本</span> </a>
+                                            <a onclick="javascript:alert('维护中');" target="right"><i
+                                                    class="fa fa-table"></i> <span
+                                                    class="nav-label">单机组日成本显示</span> </a>
+                                            <a onclick="javascript:alert('维护中');" target="right"><i
+                                                    class="fa fa-table"></i> <span
+                                                    class="nav-label">单站点日成本显示</span> </a>
+                                            <a onclick="javascript:alert('维护中');" target="right"><i
+                                                    class="fa fa-sun-o"></i> <span
+                                                    class="nav-label">各机组日成本排名</span> </a>
+                                            <a onclick="javascript:alert('维护中');" target="right"><i
+                                                    class="fa fa-sort-amount-desc"></i> <span
+                                                    class="nav-label">各站点日成本排名</span> </a>
+                                            <a th:href="@{/hrzcbfxrl/zxdbIndex/0}" target="right"><i
+                                                    class="fa  fa-line-chart"></i> <span
+                                                    class="nav-label">机组纵向对比</span> </a>
+                                            <a th:href="@{/hrzcbfxrl/hxdbIndex(pageNow=0)}" target="right"><i
+                                                    class="fa  fa-line-chart"></i> <span
+                                                    class="nav-label">机组横向对比</span> </a>
+                                            <a th:href="@{/hrzcbfxrl/zxdbIndex2/0}" target="right"><i
+                                                    class="fa  fa-line-chart"></i> <span
+                                                    class="nav-label">站点纵向对比</span> </a>
+                                            <a th:href="@{/hrzcbfxrl/hxdbIndex2(pageNow=0)}" target="right"><i
+                                                    class="fa  fa-line-chart"></i> <span
+                                                    class="nav-label">站点横向对比</span> </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a><i class="fa fa-tint"></i> <span
+                                            class="nav-label">水耗成本</span><span
+                                            class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level">
+                                        <li>
+                                            <a th:href="@{/hrzcbfxsl/init/0}" target="right"><i
+                                                    class="fa fa-dollar"></i> <span
+                                                    class="nav-label">站点当前成本</span> </a>
+                                            <a onclick="javascript:alert('维护中');" target="right"><i
+                                                    class="fa fa-table"></i> <span
+                                                    class="nav-label">单站点日成本显示</span> </a>
+                                            <a onclick="javascript:alert('维护中');" target="right"><i
+                                                    class="fa fa-sort-amount-desc"></i> <span
+                                                    class="nav-label">各站点日成本排名</span> </a>
+                                            <a th:href="@{/hrzcbfxsl/init1}" target="right"><i
+                                                    class="fa  fa-line-chart"></i> <span
+                                                    class="nav-label">站点纵向对比</span> </a>
+                                            <a th:href="@{/hrzcbfxsl/init2}" target="right"><i
+                                                    class="fa  fa-line-chart"></i> <span
+                                                    class="nav-label">站点横向对比</span> </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a><i class="fa fa-bolt"></i> <span
+                                            class="nav-label">电耗成本</span><span
+                                            class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level">
+                                        <li>
+                                            <a th:href="@{/hrzcbfxdl/init/0}" target="right"><i
+                                                    class="fa fa-table"></i> <span
+                                                    class="nav-label">站点数据显示</span> </a>
+                                            <a onclick="javascript:alert('维护中');" target="right"><i
+                                                    class="fa fa-table"></i> <span
+                                                    class="nav-label">单站点日成本显示</span> </a>
+                                            <a onclick="javascript:alert('维护中');" target="right"><i
+                                                    class="fa fa-sort-amount-desc"></i> <span
+                                                    class="nav-label">各站点日成本排名</span> </a>
+                                            <a th:href="@{/hrzcbfxdl/init1}" target="right"><i
+                                                    class="fa  fa-line-chart"></i> <span
+                                                    class="nav-label">站点纵向对比</span> </a>
+                                            <a th:href="@{/hrzcbfxdl/init2}" target="right"><i
+                                                    class="fa  fa-line-chart"></i> <span
+                                                    class="nav-label">站点横向对比</span> </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a><i class="fa fa-dollar"></i> <span
+                                            class="nav-label">总成本</span><span
+                                            class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level">
+                                        <li>
+                                            <a th:href="@{/hrzzcb/init1/0}" target="right"><i
+                                                    class="fa  fa-line-chart"></i> <span
+                                                    class="nav-label">站点纵向对比</span> </a>
+                                        </li>
+                                        <li>
+                                            <a th:href="@{/hrzzcb/init2(pageNow=0)}" target="right"><i
+                                                    class="fa  fa-line-chart"></i> <span
+                                                    class="nav-label">站点横向对比</span> </a>
+                                        </li>
+                                        <li>
+                                            <a onclick="javascript:alert('维护中');" target="right"><i
+                                                    class="fa fa-dollar"></i> <span
+                                                    class="nav-label">公司总成本</span> </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <shiro:hasPermission name="hrzyx:yx:yx">
+                        <li>
+                            <a><i class="fa fa-file-text"></i> <span
+                                    class="nav-label">换热站营销分析</span><span
+                                    class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level collapse">
+                                <li>
+                                    <a th:href="@{/hrzyxfx/init}" target="right"><i class="fa  fa-table"></i>
+                                        <span
+                                                class="nav-label">换热站营销分析</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        </shiro:hasPermission>
+                        <shiro:hasRole name="气象信息">
+                        <li>
+                            <a><i class="fa fa-cloud"></i>
+                                <span class="nav-label">气象信息</span>
+                                <span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level collapse">
+                                <li>
+                                    <shiro:hasPermission name="qxxx:tqyb">
+                                    <a th:href="@{/qxxx/init/0}" target="right"><i class="fa fa-cloud"></i>
+                                        <span
+                                                class="nav-label">天气预报</span>
+                                    </a>
+                                    </shiro:hasPermission>
+                                    <shiro:hasPermission name="qxxx:ssjc">
+                                    <a onclick="javascript:alert('维护中');" target="right"><i
+                                            class="fa  fa-rss"></i> <span
+                                            class="nav-label">实时测点</span>
+                                    </a>
+                                    </shiro:hasPermission>
+                                </li>
+                                <!--<li>-->
+                                <!--<a th:href="@{/swwd/init}" target="right"> <span-->
+                                <!--class="nav-label">室外温度</span>-->
+                                <!--</a>-->
+                                <!--</li>-->
+                            </ul>
+                        </li>
+                        </shiro:hasRole>
+                        <shiro:hasPermission name="fhxx:fhxx">
+                        <li>
+                            <a th:href="@{/fhyc/init}" target="right"><i class="fa fa-lightbulb-o"></i> <span
+                                    class="nav-label">负荷预测</span>
+                            </a>
+                        </li>
+                        </shiro:hasPermission>
+                        <shiro:hasRole name="热源工况信息">
+                        <li>
+                            <a href="index.html#"><i class="fa fa-file-text"></i> <span
+                                    class="nav-label">热源工况信息</span><span
+                                    class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level collapse">
+                                <shiro:hasPermission name="rygk:ssgkxx">
+                                <li>
+                                    <a th:href="@{/ryssgk/init}" target="right"><i class="fa  fa-rss"></i> <span
+                                            class="nav-label">实时工况信息</span>
+                                    </a>
+                                </li>
+                                </shiro:hasPermission>
+                                <shiro:hasPermission name="rygk:lssssj">
+                                <li>
+                                    <a th:href="@{/ryssgklssj/init}" target="right"><i class="fa  fa-history"></i>
+                                        <span
+                                                class="nav-label">历史数据信息</span>
+                                    </a>
+                                </li>
+                                </shiro:hasPermission>
+                            </ul>
+                        </li>
+                        </shiro:hasRole>
+                        <shiro:hasRole name="热源能耗分析">
+                        <li>
+                            <a target="right">
+                                <i class="fa fa-steam"></i>
+                                <span class="nav-label">热源能耗分析</span>
+                                <span class="fa arrow"></span>
+                            </a>
+                            <ul class="nav nav-second-level collapse">
+                                <shiro:hasPermission name="rynh:rh">
+                                <li>
+                                    <a th:href="@{/ryssgk/choseRq}" target="right"><i class="fa fa-sun-o"></i> <span
+                                            class="nav-label">热耗分析</span>
+                                    </a>
+                                </li>
+                                </shiro:hasPermission>
+                                <shiro:hasPermission name="rynh:sh">
+                                <li>
+                                    <a th:href="@{/ryssgk/choseRq2}" target="right"><i class="fa fa-tint"></i> <span
+                                            class="nav-label">水耗分析</span>
+                                    </a>
+                                </li>
+                                </shiro:hasPermission>
+                            </ul>
+                        </li>
+                        </shiro:hasRole>
+                        <shiro:hasRole name="热源成本分析">
+                        <li>
+                            <a>
+                                <i class="fa fa-dollar"></i>
+                                <span class="nav-label">热源成本分析</span>
+                                <span class="fa arrow"></span>
+                            </a>
+                            <ul class="nav nav-second-level collapse">
+                                <li>
+                                    <shiro:hasPermission name="rycb:rl">
+                                    <a th:href="@{/rycbfx/choseRq}" target="right"><i class="fa fa-sun-o"></i> <span
+                                            class="nav-label">热成本分析</span>
+                                    </a>
+                                    </shiro:hasPermission>
+                                    <shiro:hasPermission name="rycb:sl">
+                                    <a onclick="javascript:alert('维护中');" target="right"><i class="fa fa-tint"></i>
+                                        <span
+                                                class="nav-label">水成本分析</span>
+                                    </a>
+                                    </shiro:hasPermission>
+                                    <shiro:hasPermission name="rycb:zcb">
+                                    <a onclick="javascript:alert('维护中');" target="right"><i
+                                            class="fa  fa-dollar"></i> <span
+                                            class="nav-label">总成本</span>
+                                    </a>
+                                    </shiro:hasPermission>
+                                </li>
+                            </ul>
+                        </li>
+                        </shiro:hasRole>
+                        <shiro:hasPermission name="ryyx:yx:yx">
+                        <li>
+                            <a onclick="javascript:alert('维护中');" target="right">
+                                <i class="fa fa-file-text"></i>
+                                <span class="nav-label">热源营销分析</span>
+                                <span class="fa arrow"></span>
+                            </a>
+                        </li>
+                        </shiro:hasPermission>
+                        <shiro:hasPermission name="zbgl:zbgl">
+                        <li>
+                            <a th:href="@{/zbgl/init}" target="right"><i class="fa fa-tachometer"></i> <span
+                                    class="nav-label">指标管理</span>
+                            </a>
+                        </li>
+                        </shiro:hasPermission>
+                        <shiro:hasRole name="报表统计">
+                        <li>
+                            <a target="right">
+                                <i class="fa fa-calendar"></i>
+                                <span class="nav-label">报表统计</span>
+                                <span class="fa arrow"></span>
+                            </a>
+                            <ul class="nav nav-second-level collapse">
+                                <shiro:hasPermission name="bbtj:rwssjccs">
+                                <li>
+                                    <a onclick="javascript:alert('维护中');" target="right"><i class="fa fa-rss"></i>
+                                        <span
+                                                class="nav-label">热网实时监测参数</span>
+                                    </a>
+                                </li>
+                                </shiro:hasPermission>
+                                <shiro:hasPermission name="bbtj:rwssjclx">
+                                <li>
+                                    <a onclick="javascript:alert('维护中');" target="right"><i class="fa fa-rss"></i>
+                                        <span
+                                                class="nav-label">热网实时监测流向</span>
+                                    </a>
+                                </li>
+                                </shiro:hasPermission>
+                                <shiro:hasPermission name="bbtj:nhssjc">
+                                <li>
+                                    <a onclick="javascript:alert('维护中');" target="right"><i class="fa  fa-rss"></i>
+                                        <span
+                                                class="nav-label">能耗实时监测</span>
+                                    </a>
+                                </li>
+                                </shiro:hasPermission>
+                                <shiro:hasPermission name="bbtj:nhrbb">
+                                <li>
+                                    <a onclick="javascript:alert('维护中');" target="right"><i class="fa fa-calendar-o"></i>
+                                        <span
+                                                class="nav-label">能耗日报表</span>
+                                    </a>
+                                </li>
+                                </shiro:hasPermission>
+                                <shiro:hasPermission name="bbtj:nhzbb">
+                                <li>
+                                    <a onclick="javascript:alert('维护中');" target="right"><i class="fa fa-calendar-o"></i>
+                                        <span
+                                                class="nav-label">能耗周报表</span>
+                                    </a>
+                                </li>
+                                </shiro:hasPermission>
+                                <shiro:hasPermission name="bbtj:nhybb">
+                                <li>
+                                    <a onclick="javascript:alert('维护中');" target="right"><i class="fa fa-calendar-o"></i>
+                                        <span
+                                                class="nav-label">能耗月报表</span>
+                                    </a>
+                                </li>
+                                </shiro:hasPermission>
+                            </ul>
+                        </li>
+                        </shiro:hasRole>
+                        <shiro:hasPermission name="ldst">
+                        <li>
+                            <a th:href="@{/ldst/init}" target="right"><i class="fa fa-eye"></i> <span
+                                    class="nav-label">领导视图</span>
+                            </a>
+                        </li>
+                        </shiro:hasPermission>
+                        <shiro:hasRole name="热计量">
+                        <li>
+                            <a target="right">
+                                <i class="fa fa-certificate"></i>
+                                <span class="nav-label">热计量</span>
+                                <span class="fa arrow"></span>
+                            </a>
+                            <ul class="nav nav-second-level collapse">
+                                <shiro:hasPermission name="rjl:xq">
+                                <li>
+                                    <a th:href="@{/xq/init}" target="right"><i class="fa fa-building"></i> <span
+                                            class="nav-label">小区</span>
+                                    </a>
+                                </li>
+                                </shiro:hasPermission>
+                                <shiro:hasPermission name="rjl:zh">
+                                <li>
+                                    <a th:href="@{/yh/init}" target="right"><i class="fa fa fa-hospital-o"></i> <span
+                                            class="nav-label">住户</span>
+                                    </a>
+                                </li>
+                                </shiro:hasPermission>
+                            </ul>
+                        </li>
+                        </shiro:hasRole>
+                        <shiro:hasRole name="系统资料">
+                        <li>
+                            <a href="ji-list.html" target="right">
+                                <i class="fa fa-gears"></i>
+                                <span class="nav-label">系统资料</span>
+                                <span class="fa arrow"></span>
+                            </a>
+                            <ul class="nav nav-second-level collapse">
+                                <shiro:hasPermission name="xtzl:pq">
+                                <li>
+                                    <!--  东南西北中五个片区 换热站可以调用不同的片区 有五个站 有固定的片区 不可动  -->
+                                    <a th:href="@{/area/init}" target="right"><i class="fa fa-flickr"></i> <span
+                                            class="nav-label">片区</span>
+                                    </a>
+                                </li>
+                                </shiro:hasPermission>
+                                <shiro:hasPermission name="xtzl:sdrdj">
+                                <li>
+                                    <a th:href="@{/sdrdj/init}" target="right"><i class="fa  fa-dollar"></i> <span
+                                            class="nav-label">水电热单价</span>
+                                    </a>
+                                </li>
+                                </shiro:hasPermission>
+                                <shiro:hasPermission name="xtzl:rymj">
+                                <li>
+                                    <a th:href="@{/rymj/init}" target="right"><i class="fa  fa fa-maxcdn"></i> <span
+                                            class="nav-label">热源面积</span>
+                                    </a>
+                                </li>
+                                </shiro:hasPermission>
+                                <shiro:hasPermission name="xtzl:gwgrzq">
+                                <li>
+                                    <a th:href="@{/gwgrzq/init}" target="right"><i class="fa fa-refresh"></i> <span
+                                            class="nav-label">供温供热周期</span>
+                                    </a>
+                                </li>
+                                </shiro:hasPermission>
+                                <shiro:hasPermission name="xtzl:hrzsxjh">
+                                <li>
+                                    <a th:href="@{/heatattribute/init/0}" target="right"><i class="fa fa-th-large"></i> <span
+                                            class="nav-label">换热站属性集合</span>
+                                    </a>
+                                </li>
+                                </shiro:hasPermission>
+                                <shiro:hasPermission name="xtzl:hrzwh">
+                                <li>
+                                    <a th:href="@{/heat/init/0}" target="right"> <i class="fa  fa-wrench"></i><span
+                                            class="nav-label">换热站维护</span>
+                                    </a>
+                                </li>
+                                </shiro:hasPermission>
+                                <shiro:hasPermission name="xtzl:jzwh">
+                                <li>
+                                    <a th:href="@{/crew/init/0}" target="right"><i class="fa  fa-wrench"></i> <span
+                                            class="nav-label">机组维护</span>
+                                    </a>
+                                </li>
+                                </shiro:hasPermission>
+                                <shiro:hasPermission name="xtzl:jzwlxwh">
+                                <li>
+                                    <a th:href="@{/building/init/0}" target="right"><i class="fa  fa-wrench"></i> <span
+                                            class="nav-label">建筑物类型维护</span>
+                                    </a>
+                                </li>
+                                </shiro:hasPermission>
+                            </ul>
+                        </li>
+                        </shiro:hasRole>
+                        <li>
+                            <a href="index.html#"><i class="fa  fa-user"></i> <span
+                                    class="nav-label">用户设置</span><span
+                                    class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level collapse">
+                                <li>
+                                    <a th:href="@{/people/toPassword}" target="right"><i class="fa  fa-lock"></i> <span
+                                            class="nav-label">密码修改</span> </a>
+                                </li>
+                                <shiro:hasPermission name="yhgl:init">
+                                <li>
+                                    <a th:href="@{/people/init/0}" target="right"><i class="fa  fa-user"></i>
+                                        <span class="nav-label">用户管理</span>
+                                    </a>
+                                </li>
+                                </shiro:hasPermission>
+                            </ul>
+                        </li>
+                    </shiro:hasRole>
+                    <!--//菜单盒子结束-->
+                </ul>
+
+            </div>
+        </nav>
+    </div>
+    <!--//导航iframe结束-->
+    <div id="page-wrapper" class="gray-bg">
+        <div class="row border-bottom">
+            <nav class="navbar navbar-static-top nav-fixed" role="navigation" style="margin-bottom: 0">
+                <div class="navbar-header">
+                </div>
+                <ul class="nav navbar-top-links navbar-right">
+                    <li>
+                        <span class="m-r-sm text-muted welcome-message"></span>
+                    </li>
+                    <li>
+                        <a th:href="@{/logout}">
+                            <i class="fa fa-sign-out"></i>退出
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <!--//此处为iframe开始-->
+        <div class="wrapper wrapper-content animated fadeInRight" id="iframepage">
+            <iframe th:src="@{/home/initSubpage}" id="iframeid" name="right" frameborder="no"
+                    onchange="changeFrameHeight()"
+                    scrolling="yes" width="100%" height="100%"></iframe>
+        </div>
+        <!--//此处为iframe结束-->
+        <div class="footer">
+            <div class="pull-right">
+                2017 <strong>2017</strong> .
+            </div>
+            <div>
+                <strong></strong> &copy; 2017
+            </div>
+        </div>
+
+    </div>
+</div>
+<script th:src="@{/js/jquery-2.1.1.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/plugins/metisMenu/jquery.metisMenu.js}"></script>
+<script th:src="@{/js/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+<script th:src="@{/js/inspinia.js}"></script>
+<script th:src="@{/js/plugins/pace/pace.min.js}"></script>
+<script th:src="@{/js/plugins/iCheck/icheck.min.js}"></script>
+
+<script th:src="@{/style/js/add.js}" type="text/javascript" charset="utf-8"></script>
+<script>
+            $(document).ready(function () {
+                $('.i-checks').iCheck({
+                    checkboxClass: 'icheckbox_square-green',
+                    radioClass: 'iradio_square-green',
+                });
+            });
+            window.onresize=function(){  
+		     changeFrameHeight();  
+		} 
+
+</script>
+
+<script th:inline="javascript">
+/*<![CDATA[*/
+var path = /*[[${#httpServletRequest.getScheme()
+					+ "://" + #httpServletRequest.getServerName()
+					+ ":" + #httpServletRequest.getServerPort()
+					+ #httpServletRequest.getContextPath()}]]*/;
+
+function click_test(){
+    $.ajax({
+        url:path+"/getmachth/test1",
+        dataType:"json",
+        async:false,
+        data:{},
+        type:"GET",
+        success:function(req){
+            alert(req.data);
+        }
+    });
+}
+/*]]>*/
+
+</script>
+</body>
+</html>

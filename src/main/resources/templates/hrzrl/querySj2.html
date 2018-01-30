@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+      xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="context-path" th:content="@{/}"/>
+    <title>INSPINIA | Empty Page</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/font-awesome/css/font-awesome.css}" rel="stylesheet"/>
+    <link th:href="@{/css/animate.css}" rel="stylesheet"/>
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/style/modify.css}"/>
+    <style type="text/css">
+    	.hh{
+    		cursor: pointer;
+    		position: relative;
+    	}
+    	.hh:hover{
+    	}
+    	.hh:hover .th-box{
+    		display: block;
+    	}
+    	.th-box{
+    		position: absolute;
+    		top: 0;
+    		left: 0;
+    		background: #fff;
+    		display: none;
+    		width: 100%;
+    		height: 100%;
+    	}
+    	.th-box a{
+    		display: inline-block;
+    		float: left;
+    		line-height: 35px;
+    		width: 50%;
+    		text-align: center;
+    	}
+    	.th-box a:first-child:hover{
+    		background: #ccc;
+    	}
+    	.th-box a:last-child:hover{
+    		background: #ccc;
+    	}
+    </style>
+</head>
+
+<body class="color">
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <div class="ibox-tools">
+                                        <div class="ibox-tools">
+                               		 		<a style="background: #18a689;"
+                                   				class="fa fa-arrow-left"
+                                   				href="javascript:history.go(-1);"></a>
+                            			</div>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class=" table-responsive">
+                        <table class="table table-striped table-bordered table-hover dataTables-example"
+                               id="table table-striped table-bordered table-hover dataTables-example">
+                            <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th class="h-1 hh">时间
+                                </th>
+                                <th class="h-1 hh">外温/℃
+                                </th>
+                                <th class="h-1 hh">站点名称
+                                </th>
+                                <!-- 试做 数据不完整 -->
+                                <th class="h-1 hh">建筑物类型
+                                </th>
+                                <!-- 试做 数据不完整 -->
+                                <th class="h-1 hh">基准热指标
+                                </th>
+                                <!-- 试做 数据不完整 -->
+                                <th class="h-1 hh">备注列
+                                </th>
+                                <th class="h-1 hh">站点面积/㎡
+                                </th>
+                                <th class="h-1 hh">耗热量/Gj
+                                    <div class="th-box">
+                                        <a onclick="click_ordes(0,5)">升序</a>
+                                        <a onclick="click_ordes(1,5)">降序</a>
+                                    </div>
+                                </th>
+                                <th class="h-1 hh">热指标/Gj/㎡/s
+                                    <div class="th-box">
+                                        <a onclick="click_ordes(0,6)">升序</a>
+                                        <a onclick="click_ordes(1,6)">降序</a>
+                                    </div>
+                                </th>
+                                 <!-- 试做 数据不完整 -->
+                                <!-- <th class="h-4 hh">操作</th> -->
+                            </tr>
+                            </thead>
+                            <tbody id="x">
+                            <tr class="gradeX" th:each="obj,s:${list}">
+                                <td th:text="${s.index+1}"></td>
+                                <td th:text="${obj.sj}"></td>
+                                <td th:text="${obj.wd}"></td>
+                                <td th:text="${obj.hrzmc}"></td>
+                                <!-- 试做 数据不完整 -->
+                                <td th:text="${obj.hrzmc}"></td>
+                                <!-- 试做 数据不完整 -->
+                                <td th:text="${obj.hrzmc}"></td>
+                                <!-- 试做 数据不完整 -->
+                                <td th:text="${obj.hrzmc}"></td>
+                                <td th:text="${obj.hrzmj}"></td>
+                                <td th:text="${#numbers.formatDecimal((obj.hrzrzb == null ? '0' : obj.hrzrdh), 1, 2)}"></td>
+                                <td th:text="${#numbers.formatDecimal((obj.hrzrzb == null ? '0' : obj.hrzrzb), 1, 2)}"></td>
+                            	<!-- 试做 数据不完整 -->
+                                <!-- <td><a th:href="@{/exchange/queryOne(jzname='高管局地暖')}">查看</a></td> -->
+                            </tr>
+                            <tr class="gradeY">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td th:text="平均值"></td>
+                                <td id="pj2"></td>
+                                <td id="pj"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/js/jquery-2.1.1.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/plugins/metisMenu/jquery.metisMenu.js}"></script>
+<script th:src="@{/js/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+<script th:src="@{/js/inspinia.js}"></script>
+<script th:inline="javascript">
+/*<![CDATA[*/
+
+$(function(){
+    var i = 0;
+    $('.gradeX').each(function(index,e){
+        var k = $(e).find('td:eq(6)').text();
+        i = parseFloat(i)+parseFloat(k);
+    });
+    i = parseFloat(i)/parseFloat($('.gradeX').length);
+    var k = i+"";
+    $('#pj').text(k.substring(0,k.indexOf(".")+3));
+});
+$(function(){
+    var i = 0;
+    $('.gradeX').each(function(index,e){
+        var k = $(e).find('td:eq(5)').text();
+        i = parseFloat(i)+parseFloat(k);
+    });
+    i = parseFloat(i)/parseFloat($('.gradeX').length);
+    var k = i+"";
+    $('#pj2').text(k.substring(0,k.indexOf(".")+3));
+});
+
+<!--排序-->
+function click_ordes(lx,t){
+    var myArray=new Array();
+    myArray = $('.gradeX');
+    for(var i = 1;i< myArray.length;i++){
+        for(var j = 0;j< myArray.length-1;j++){
+            var te = $(myArray[j]).find('td').eq(t).text();
+            var te1 = $(myArray[j+1]).find('td').eq(t).text();
+            if(parseFloat(te) < parseFloat(te1)){
+                var d;
+                d = myArray[j];
+                myArray[j] = myArray[j+1];
+                myArray[j+1] = d;
+            }
+        }
+    }
+    var gradeY = $('.gradeY');
+    $('.gradeX').remove();
+    $('.gradeY').remove();
+    if(lx == 1){
+        for(var i = 0;i< myArray.length;i++){
+            $('#x').append(myArray[i]);
+        }
+        $('#x').append(gradeY);
+    }else{
+        for(var i = myArray.length;i>= 0 ;i--){
+            $('#x').append(myArray[i]);
+        }
+        $('#x').append(gradeY);
+    }
+    $('.gradeX').each(function(index,e){
+        $(e).find('td').eq(0).text(index+1);
+    });
+}
+/*]]>*/
+</script>
+</body>
+
+</html>

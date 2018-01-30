@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<head>
+
+<meta charset="utf-8" />
+<meta content="text/html" />
+<meta name="context-path" th:content="@{/}" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+<title>片区维护</title>
+
+<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
+<link th:href="@{/font-awesome/css/font-awesome.css}" rel="stylesheet" />
+
+<link th:href="@{/css/animate.css}" rel="stylesheet" />
+<link th:href="@{/css/style.css}" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" th:href="@{/style/modify.css}" />
+</head>
+<script type="text/javascript" charset="utf-8" th:src="@{/ubb/ueditor.config.js}"></script>
+<script type="text/javascript" charset="utf-8" th:src="@{/ubb/ueditor.all.min.js}"> </script>
+<script type="text/javascript" charset="utf-8" th:src="@{/ubb/lang/zh-cn/zh-cn.js}"></script>
+<body class="color">
+	<div class="middle-box2 text-center animated fadeInRightBig">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<h5>片区添加</h5>
+				<div class="ibox-tools"></div>
+			</div>
+			<div class="ibox-content" id="pq">
+				<div class="row">
+					<div class="col-md-12 b-r">
+					<form class="m-t" role="form" action="#" 
+						th:action="@{/area/add}" method="post" >
+					<div class="form-group">
+					<label class="col-md-2">片区名称</label>
+					<input type="text" name="name" class="col-md-10"/>
+					</div>
+					<div class="form-group">
+					<label class="col-md-2">片区状态</label>
+					<select name="falg" class="col-md-10">
+						<option value="0">显示</option>
+						<option value="1">不显示</option>
+					</select>
+					</div>
+					<input type="submit" class="btn btn-primary block  m-b " style="display:block;width:100px;margin:0 auto;" value="提交"/>
+					</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Mainly scripts -->
+	<script src="@{/js/jquery-2.1.1.js}"></script>
+	<script src="@{/js/bootstrap.min.js}"></script>
+	<script src="@{/js/plugins/metisMenu/jquery.metisMenu.js}"></script>
+	<script src="@{/js/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+
+	<!-- Custom and plugin javascript -->
+	<script src="@{/js/inspinia.js}"></script>
+</body>
+
+</html>

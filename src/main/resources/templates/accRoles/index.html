@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+      xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+    <meta charset="utf-8"/>
+    <meta content="text/html"/>
+    <meta name="context-path" th:content="@{/}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+
+    <title>Permission</title>
+
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/font-awesome/css/font-awesome.css}" rel="stylesheet"/>
+
+    <link th:href="@{/css/animate.css}" rel="stylesheet"/>
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/style/modify.css}"/>
+    <link th:href="@{/css/plugins/jsTree/style.min.css}" rel="stylesheet"/>
+    <style>
+			.jstree-open>.jstree-anchor>.fa-folder:before {
+				content: "\f07c";
+			}
+
+			.jstree-default .jstree-icon.none {
+				width: 0;
+			}
+
+			.fa {
+				margin-right: 10px;
+			}
+
+
+
+
+
+
+
+
+
+    </style>
+</head>
+
+<body class="color">
+<div>
+    <div>
+        <table class="table table-striped table-bordered table-hover dataTables-example">
+            <thead>
+            <tr>
+                <th style="width: 5%;">序号</th>
+                <th style="text-align: center;">账户名称</th>
+                <th style="text-align: center;">角色选择</th>
+                <th style="text-align: center;">
+                    操作
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="gradeX" th:each="UserModel,menuStar:${pager}">
+                <form th:action="@{/accRoles/addOrUpdate}">
+                    <td th:text="${menuStar.index+1}">序号</td>
+                    <td hidden="hidden">
+                        <input type="hidden" th:value="${UserModel.department}" name="uuid"/>
+                        <input type="hidden" th:value="${UserModel.uuid}" name="accId"/>
+                    </td>
+                    <td th:text="${UserModel.username}">账户名称</td>
+                    <td>
+                        <select name="roleId" class="roleId">
+                            <option th:each="RolesModel,roleStat:${model}" th:value="${RolesModel.uuid}"
+                                    th:text="${RolesModel.rolesName}"
+                                    th:if="${RolesModel.uuid} == ${UserModel.position}"
+                                    selected="selected"></option>
+                            <option th:each="RolesModel,roleStat:${model}" th:value="${RolesModel.uuid}"
+                                    th:text="${RolesModel.rolesName}"
+                                    th:if="${RolesModel.uuid} != ${UserModel.position}"></option>
+                        </select>
+                    </td>
+                    <td class="center">
+                        <div class="cur">
+                            <!--<a style="background: #1ab394;border-radius: 5px;color: #fff;font-weight: bold;"-->
+                            <!--th:href="@{/hd/xjwt/toUpdate(id=${RolesModel.uuid})}">编辑</a>-->
+                            <input type="submit" value="确定"/>
+                        </div>
+                    </td>
+                </form>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <th colspan="8">
+                    <!--//分页-->
+                    <div class="page">
+                        <nav aria-label="Page navigation" th:if="${pager} != null">
+                            <ul class="pagination" th:if="${pager.pages} != null">
+
+                                <li>
+                                    <a th:href="@{/hd/order/init2(serch=${serch})}" aria-label="Previous"> <span
+                                            aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+
+                                <li th:if="${pager.pages != null}"
+                                    th:each="i:${#numbers.sequence(1,pager.pages == 0 ? 1:pager.pages)}">
+                                    <a th:href="@{/hd/order/init2(pageNow=${i},serch=${serch})}" th:text="${i}"></a>
+                                </li>
+
+                                <li>
+                                    <a th:href="@{/hd/order/init2(pageNow=${pager.pages},serch=${serch})}"
+                                       aria-label="Next"> <span
+                                            aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </nav>
+                    </div>
+                </th>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+
+<!-- Mainly scripts -->
+<script th:src="@{/js/jquery-2.1.1.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/plugins/metisMenu/jquery.metisMenu.js}"></script>
+<script th:src="@{/js/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+
+<!-- Custom and plugin javascript -->
+<script th:src="@{/js/inspinia.js}"></script>
+<script th:src="@{/js/plugins/jsTree/jstree.min.js}"></script>
+<script th:src="@{/style/js/js.js}" type="text/javascript" charset="utf-8"></script>
+<script th:inline="javascript">
+/*<![CDATA[*/
+    var path = /*[[${#httpServletRequest.getScheme()
+					+ "://" + #httpServletRequest.getServerName()
+					+ ":" + #httpServletRequest.getServerPort()
+					+ #httpServletRequest.getContextPath()}]]*/;
+
+/*]]>*/
+
+
+
+
+
+
+
+
+</script>
+</body>
+</html>

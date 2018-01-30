@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+      xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="context-path" th:content="@{/}"/>
+    <title>注册</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/font-awesome/css/font-awesome.css}" rel="stylesheet"/>
+    <link th:href="@{/css/plugins/iCheck/custom.css}" rel="stylesheet"/>
+    <link th:href="@{/css/animate.css}" rel="stylesheet"/>
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/style/modify.css}"/>
+    <style type="text/css">
+	.form-group span{
+		color: #f00;
+		display: block;
+		height: 30px;
+		line-height: 30px;
+	}
+    </style>
+</head>
+
+<body class="gray-bg">
+
+<div class="middle-box text-center loginscreen   animated fadeInDown">
+    <div>
+        <div>
+
+            <h1 class="logo-name">添加账户</h1>
+
+        </div>
+        <form class="m-t" role="form" th:action="@{/register/register}" method="post" th:object="${model}"
+              onsubmit="$('input[type=submit]').attr('disabled',true)">
+            <div class="form-group">
+                <label class="col-xs-4 col-md-4">账户</label>
+                <input type="text" class="col-xs-14 col-md-8 required" name="account"/>
+                <span class="pl" th:if="${#fields.hasErrors('account')}" th:errors="*{account}"></span>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-4 col-md-4">密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码</label>
+                <input type="password" class="col-xs-14 col-md-8" name="passwrod"/>
+                <span class="pl" th:if="${#fields.hasErrors('passwrod')}" th:errors="*{passwrod}"></span>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-4 col-md-4">姓名</label>
+                <input type="text" class="col-xs-14 col-md-8" name="username"/>
+                <span class="pl" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-4 col-md-4">单位</label>
+                <select class="col-xs-14 col-md-8" name="company" onchange="change_getBm(this,'2','bm','zw')">
+                    <option value="">请选择</option>
+                    <option value="0">总部</option>
+                    <option th:each="obj,s:${companys}" th:if="${obj.types =='1'}" th:value="${obj.uuid}"
+                            th:text="${obj.names}"></option>
+                </select>
+                <span class="pl" th:if="${#fields.hasErrors('company')}" th:errors="*{company}"></span>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-4 col-md-4">部门</label>
+                <select class="col-xs-14 col-md-8" name="department" id="bm" onchange="change_getBm(this,'3','zw','')">
+                    <option value="">请选择</option>
+                    <option th:each="obj,s:${department}" th:value="${obj.uuid}" th:text="${obj.names}"></option>
+                </select>
+                <span class="pl" th:if="${#fields.hasErrors('department')}" th:errors="*{department}"></span>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-4 col-md-4">职位</label>
+                <select class="col-xs-14 col-md-8" name="position" id="zw">
+                    <option value="">请选择</option>
+                </select>
+                <span class="pl" th:if="${#fields.hasErrors('position')}" th:errors="*{position}"></span>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-4 col-md-4">工种</label>
+                <input type="text" class="col-xs-14 col-md-8" name="profession"/>
+                <span class="pl" th:if="${#fields.hasErrors('profession')}" th:errors="*{profession}"></span>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-4 col-md-4">身份证号</label>
+                <input type="text" class="col-xs-14 col-md-8" name="idNumber"/>
+                <span class="pl" th:if="${#fields.hasErrors('idNumber')}" th:errors="*{idNumber}"></span>
+            </div>
+
+            <span th:text="${error}" style="color:red;"></span>
+
+            <button type="submit" class="btn btn-primary block full-width m-b">添加</button>
+
+        </form>
+    </div>
+</div>
+
+<script th:src="@{/js/jquery-2.1.1.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/plugins/iCheck/icheck.min.js}"></script>
+<script th:src="@{/style/jquery-validate.js}" type="text/javascript" charset="utf-8"></script>
+<script th:inline="javascript">
+/*<![CDATA[*/
+    var path = /*[[${#httpServletRequest.getScheme()
+					+ "://" + #httpServletRequest.getServerName()
+					+ ":" + #httpServletRequest.getServerPort()
+					+ #httpServletRequest.getContextPath()}]]*/;
+    function change_getBm(obj,lx,d,d1){
+        var dd = '#'+d;
+        $(dd).find('option').remove();
+        if(d1 != ''){
+            var dd1 = '#'+d1;
+            $(dd1).find('option').remove();
+            $(dd1).append("<option value=''>请选择</option>");
+        }
+        var id = $(obj).val();
+        $(dd).append("<option value=''>请选择</option>");
+        $.ajax({
+            url:path+"/structure/subordinate",    //请求的url地址
+            dataType:"json",   //返回格式为json
+            async:false,//请求是否异步，默认为异步，这也是ajax重要特性
+            data:{"id":id,"lx":lx},    //参数值
+            type:"post",   //请求方式
+            success:function(req){
+                //请求成功时处理
+                $(req).each(function(index,e){
+                    $(dd).append("<option value='"+e.uuid+"'>"+e.names+"</option>");
+                });
+            },
+            error:function(){
+                //请求出错处理
+                alert('获取部门出错');
+            }
+        });
+    }
+/*]]>*/
+</script>
+</body>
+
+</html>

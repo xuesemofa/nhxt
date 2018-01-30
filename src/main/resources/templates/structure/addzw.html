@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+      xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="context-path" th:content="@{/}"/>
+    <title>PY</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/font-awesome/css/font-awesome.css}" rel="stylesheet"/>
+    <link th:href="@{/css/animate.css}" rel="stylesheet"/>
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+</head>
+
+<body class="gray-bg">
+
+<div class="middle-box text-center loginscreen animated fadeInDown">
+    <div>
+        <form class="m-t" role="form" th:action="@{/structure/add}" method="post">
+            <div class="form-group">
+                <select class="form-control" onchange="change_dw(this)">
+                    <option value="">请选择</option>
+                    <option value="0">总部</option>
+                    <option th:each="obj,s:${companysList}" th:if="${obj.types == '1'}" th:value="${obj.uuid}"
+                            th:text="${obj.names}"></option>
+                </select>
+                <select class="form-control" name="parents" id="bm">
+                    <option value="">请选择</option>
+                </select>
+                <input type="text" class="form-control" placeholder="职位名称" name="names" value=""/>
+                <input type="hidden" class="form-control" name="types" value="3"/>
+            </div>
+            <span th:value="${errortext}"></span>
+            <button type="submit" class="btn btn-primary block full-width m-b">提交</button>
+            <a th:href="@{/structure/init}" class="btn btn-primary block full-width m-b">返回</a>
+        </form>
+    </div>
+</div>
+
+<!-- Mainly scripts -->
+<script th:src="@{/js/jquery-2.1.1.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:inline="javascript">
+/*<![CDATA[*/
+    var path = /*[[${#httpServletRequest.getScheme()
+					+ "://" + #httpServletRequest.getServerName()
+					+ ":" + #httpServletRequest.getServerPort()
+					+ #httpServletRequest.getContextPath()}]]*/;
+
+    function change_dw(obj){
+        $("#bm").find('option').remove();
+        $("#bm").append("<option value=''>请选择</option>");
+        $.ajax({
+            url:path+"/structure/subordinate",    //请求的url地址
+            dataType:"json",   //返回格式为json
+            async:false,//请求是否异步，默认为异步，这也是ajax重要特性
+            data:{"id":$(obj).val(),"lx":"2"},    //参数值
+            type:"post",   //请求方式
+            success:function(req){
+                //请求成功时处理
+                $(req).each(function(index,e){
+                    if(e.types == 2)
+                    $("#bm").append("<option value='"+e.uuid+"'>"+e.names+"</option>");
+                });
+            },
+            error:function(){
+                //请求出错处理
+                alert('获取部门出错');
+            }
+        });
+    }
+/*]]>*/
+
+
+
+
+
+
+
+
+
+</script>
+</body>
+
+</html>
